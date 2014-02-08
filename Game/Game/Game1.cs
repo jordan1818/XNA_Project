@@ -42,7 +42,7 @@ namespace Game
 
         private void InitMatrices()
         {
-            projectionMatrix = Matrix.CreatePerspective(MathHelper.PiOver2, GraphicsDevice.Viewport.AspectRatio, 1.0f, 1000f);
+            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, GraphicsDevice.Viewport.AspectRatio, 1.0f, 1000f);
 
             viewMatrix = Matrix.CreateLookAt(Vector3.Zero, -Vector3.UnitZ, Vector3.Up);
         }
