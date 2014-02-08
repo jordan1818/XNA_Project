@@ -23,6 +23,8 @@ namespace Game
 
         private EntityWorld entityWorld;
 
+        private Entity player;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -40,7 +42,7 @@ namespace Game
 
         private void InitMatrices()
         {
-            projectionMatrix = Matrix.CreatePerspective(MathHelper.PiOver2, GraphicsDevice.Viewport.AspectRatio, 0.01f, 1000f);
+            projectionMatrix = Matrix.CreatePerspective(MathHelper.PiOver2, GraphicsDevice.Viewport.AspectRatio, 1.0f, 1000f);
 
             viewMatrix = Matrix.CreateLookAt(Vector3.Zero, -Vector3.UnitZ, Vector3.Up);
         }
@@ -67,6 +69,10 @@ namespace Game
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            player = entityWorld.CreateEntity();
+            player.AddComponent(new SpatialFormComponent("minimon for upload"));
+            player.AddComponent(new TransformComponent());
+            player.GetComponent<TransformComponent>().Position = new Vector3(0, 0, -10);
         }
 
         protected override void UnloadContent()
@@ -80,6 +86,17 @@ namespace Game
             {
                 Exit();
             }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            {
+                player.GetComponent<TransformComponent>().Position += new Vector3(0, 0, -1);
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            {
+                player.GetComponent<TransformComponent>().Position += new Vector3(0, 0, 1);
+            }
+
             entityWorld.Update(gameTime.ElapsedGameTime);
         }
 
