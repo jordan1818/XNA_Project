@@ -87,14 +87,26 @@ namespace Game
                 Exit();
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            // Debug controls. Input will be moved into the ECS in the future.
+            var transform = player.GetComponent<TransformComponent>();
+            if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                player.GetComponent<TransformComponent>().Position += new Vector3(0, 0, -1);
+                transform.Position += new Vector3(0, 0, -1);
+            } 
+            else if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            {
+                transform.Position += new Vector3(0, 0, 1);
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                player.GetComponent<TransformComponent>().Position += new Vector3(0, 0, 1);
+                var rot = Quaternion.CreateFromYawPitchRoll(0, 0, 0.25f);
+                transform.Rotation *= rot;
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            {
+                var rot = Quaternion.CreateFromYawPitchRoll(0, 0, -0.25f);
+                transform.Rotation *= rot;
             }
 
             entityWorld.Update(gameTime.ElapsedGameTime);
