@@ -29,11 +29,12 @@ namespace ECS
         }
 
         // Add a component of type T if it does not already exist.
-        public void AddComponent<T>(T component) where T:IComponent
+        public void AddComponent(IComponent component)
         {
-            if (!components.ContainsKey(typeof(T)))
+            var T = component.GetType();
+            if (!components.ContainsKey(T))
             {
-                components[typeof(T)] = component;
+                components[T] = component;
             }
         }
 
