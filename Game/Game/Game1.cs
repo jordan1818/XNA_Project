@@ -31,8 +31,8 @@ namespace Game
 
         protected override void Initialize()
         {
-            InitBlackBoard();
             InitMatrices();
+            InitBlackBoard();
             InitEntityWorld();
 
             base.Initialize();  // Must be called last.

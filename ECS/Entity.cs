@@ -15,6 +15,7 @@ namespace ECS
         internal Entity(long id)
         {
             UniqueID = id;
+            components = new Dictionary<Type, IComponent>();
         }
 
         // Attempt to retrieve a component of type T. 
