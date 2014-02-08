@@ -37,6 +37,12 @@ namespace ECS
             return e;
         }
 
+        // Returns an entity. Will throw if an invalid ID is passed.
+        public Entity GetEntity(long ID)
+        {
+            return entities[ID];
+        }
+
         // Register a system with the entity world.
         public void RegisterSystem<T>() where T:EntitySystem
         {
