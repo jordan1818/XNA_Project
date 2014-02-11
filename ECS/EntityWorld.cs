@@ -5,21 +5,34 @@ using System.Text;
 
 namespace ECS
 {
-    // The entity world is responsible for managing entities and systems.
+    /// <summary>
+    /// The entity world is responsible for managing entities and systems.
+    /// </summary>
     public sealed class EntityWorld
     {
-        // A mapping of entities to their unique ID's.
+        /// <summary>
+        /// A mapping of entities to their unique ID's.
+        /// </summary>
         private Dictionary<long, Entity> entities;
 
-        // The systems which are processed during the update call.
+        /// <summary>
+        /// The systems which are processed during the update call.
+        /// </summary>
         private List<EntitySystem> updateSystems;
 
-        // The systems which are processed during the draw call.
+        /// <summary>
+        /// The systems which are processed during the draw call.
+        /// </summary>
         private List<EntitySystem> drawSystems;
 
-        // The time elapsed since the last update call.
+        /// <summary>
+        /// The time elapsed since the last update call.
+        /// </summary>
         public TimeSpan DeltaTime { get; private set; }
 
+        /// <summary>
+        /// The next available ID.
+        /// </summary>
         private long nextFreeID = 0;
 
         public EntityWorld()
@@ -29,7 +42,9 @@ namespace ECS
             drawSystems   = new List<EntitySystem>();
         }
         
-        // Creates an entity which is added to the internal entity pool. 
+        /// <summary>
+        /// Creates an entity which is added to the internal entity pool. 
+        /// </summary>
         public Entity CreateEntity()
         {
             var e = new Entity(nextFreeID++);
@@ -37,13 +52,20 @@ namespace ECS
             return e;
         }
 
-        // Returns an entity. Will throw if an invalid ID is passed.
+        /// <summary>
+        /// Returns an entity. Will throw if an invalid ID is passed.
+        /// </summary>
+        /// <param name="ID">The ID to lookup.</param>
+        /// <returns></returns>
         public Entity GetEntity(long ID)
         {
             return entities[ID];
         }
 
-        // Register a system with the entity world.
+        /// <summary>
+        /// Register a system with the entity world.
+        /// </summary>
+        /// <typeparam name="T">The system type.</typeparam>
         public void RegisterSystem<T>() where T:EntitySystem
         {
             // Create the system.
@@ -56,7 +78,10 @@ namespace ECS
                 drawSystems.Add(system);
         }
 
-        // Process all update systems.
+        /// <summary>
+        /// Process all update systems.
+        /// </summary>
+        /// <param name="time">Time since last update call.</param>
         public void Update(TimeSpan time)
         {
             DeltaTime = time;
@@ -69,7 +94,9 @@ namespace ECS
             }
         }
 
-        // Process all draw systems.
+        /// <summary>
+        /// Process all draw systems. 
+        /// </summary>
         public void Draw()
         {
             var entList = entities.Values.ToList();

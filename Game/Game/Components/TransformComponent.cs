@@ -4,19 +4,29 @@ using ECS;
 
 namespace Game.Components
 {
-    // Basic component for any entity with a position in 3D space.
+    /// <summary>
+    /// Basic component for any entity with a position in 3D space.
+    /// </summary>
     public class TransformComponent : IComponent
     {
-        // The position of the entity.
+        /// <summary>
+        ///  The position of the entity.
+        /// </summary>
         public Vector3 Position { get; set; }
 
-        // The scale of the entity.
+        /// <summary>
+        /// The scale of the entity.
+        /// </summary>
         public Vector3 Scale { get; set; }
 
-        // The rotation of the entity.
+        /// <summary>
+        ///  The rotation of the entity.
+        /// </summary>
         public Quaternion Rotation { get; set; }
 
-        // The full transformation matrix. Lazily calculated.
+        /// <summary>
+        /// The full transformation matrix. Lazily calculated.
+        /// </summary>
         public Matrix TransformMatrix
         {
             get

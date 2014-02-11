@@ -40,6 +40,9 @@ namespace Game
             base.Initialize();  // Must be called last.
         }
 
+        /// <summary>
+        /// Calculate the view and projection matrices.
+        /// </summary>
         private void InitMatrices()
         {
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, GraphicsDevice.Viewport.AspectRatio, 1.0f, 1000f);
@@ -47,6 +50,9 @@ namespace Game
             viewMatrix = Matrix.CreateLookAt(Vector3.Zero, -Vector3.UnitZ, Vector3.Up);
         }
 
+        /// <summary>
+        /// Create the entity world and register systems.
+        /// </summary>
         private void InitEntityWorld()
         {
             entityWorld = new EntityWorld();
@@ -56,6 +62,9 @@ namespace Game
             entityWorld.RegisterSystem<RenderSystem>();
         }
 
+        /// <summary>
+        /// Register objects needed across multiple systems.
+        /// </summary>
         private void InitBlackBoard()
         {
             BlackBoard.SetEntry("ContentManager"  , Content);

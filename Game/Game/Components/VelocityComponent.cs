@@ -3,11 +3,15 @@ using Microsoft.Xna.Framework;
 using ECS;
 
 namespace Game.Components
-{
-    // Provides velocity to an entity.
+{   
+    /// <summary>
+    /// Provides velocity to an entity.
+    /// </summary>
     public class VelocityComponent : IComponent
     {
-        // The velocity of the entity.
+        /// <summary>
+        /// The velocity of the entity.
+        /// </summary>
         public Vector3 Velocity { get; set; }
 
         public VelocityComponent()

@@ -5,7 +5,9 @@ using Game.Components;
 
 namespace Game.Systems
 {
-    // Provides movement to any entity with a velocity and transform component.
+    /// <summary>
+    /// Provides movement to any entity with a velocity and transform component.
+    /// </summary>
     public sealed class MovementSystem : EntitySystem
     {
         public MovementSystem(EntityWorld entityWorld) :
@@ -13,7 +15,10 @@ namespace Game.Systems
         {
         }
 
-        // Updates the entities position based on it's velocity.
+        /// <summary>
+        /// Updates the entities position based on it's velocity.
+        /// </summary>
+        /// <param name="entity">The entity being processed.</param>
         protected override void Process(Entity entity)
         {
             var vel = entity.GetComponent<VelocityComponent>();

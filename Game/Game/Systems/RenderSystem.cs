@@ -8,7 +8,9 @@ using Game.Components;
 
 namespace Game.Systems
 {
-    // Renders any entities with a transform and spatial form component.
+    /// <summary>
+    ///  Renders any entities with a transform and spatial form component.
+    /// </summary>
     public sealed class RenderSystem : EntitySystem
     {
         private ContentManager contentManager;
@@ -52,7 +54,11 @@ namespace Game.Systems
             }
         }
 
-        // FetchModel provides lazy loading of models.
+        /// <summary>
+        ///  FetchModel provides lazy loading of models.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         private Model FetchModel(string key)
         {
             Model m;
