@@ -5,16 +5,29 @@ using System.Text;
 
 namespace ECS
 {
+    /// <summary>
+    /// Type type of system. Either an update or draw system.
+    /// </summary>
     public enum GameLoopType { Update, Draw };
 
+    /// <summary>
+    /// Base class for all systems.
+    /// </summary>
     public abstract class EntitySystem
     {
+        /// <summary>
+        /// Read only ref to the EntityWorld this systems belongs to.
+        /// </summary>
         protected readonly EntityWorld entityWorld;
 
-        // The list of component types this system operates on.
+        /// <summary>
+        /// The list of component types this system operates on.
+        /// </summary>
         public Type[] Types { get; protected set; }
 
-        // Which loop this system gets called in.
+        /// <summary>
+        /// Which loop this systems gets called in.
+        /// </summary>
         public GameLoopType GameLoopType { get; protected set; }
 
         public EntitySystem(EntityWorld entityWorld, Type[] types, GameLoopType gameLoopType)
@@ -24,10 +37,16 @@ namespace ECS
             this.GameLoopType = gameLoopType;
         }
 
-        // Process a valid entity for this system.
+        /// <summary>
+        /// Process a valid entity for this system. To be implemented by the actual system.
+        /// </summary>
+        /// <param name="entity">The entity to be processed.</param>
         protected abstract void Process(Entity entity);
 
-        // Process a single entity if it has all required components.
+        /// <summary>
+        /// Process a single entity if it has all required components.
+        /// </summary>
+        /// <param name="entity">The entity to process.</param>
         internal void ProcessEntity(Entity entity)
         {
             // Make sure it has all required components.
@@ -41,7 +60,10 @@ namespace ECS
             Process(entity);
         }
 
-        // Process the list of entities.
+        /// <summary>
+        /// Process a list of entities.
+        /// </summary>
+        /// <param name="entities">The list of entities.</param>
         internal void ProcessEntities(List<Entity> entities)
         {
             foreach (var e in entities)

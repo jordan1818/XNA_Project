@@ -5,7 +5,9 @@ using System.Text;
 
 namespace ECS
 {
-    // Components are strictly data, they should not have any functionality.
+    /// <summary>
+    /// Components are strictly data, they should not have any functionality.
+    /// </summary>
     public interface IComponent
     {
     }

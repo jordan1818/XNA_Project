@@ -3,10 +3,14 @@ using ECS;
 
 namespace Game.Components
 {
-    // Provides a spatial form to an entity.
+    /// <summary>
+    /// Provides a spatial form to an entity.
+    /// </summary>
     public class SpatialFormComponent : IComponent
     {
-        // Gets or sets the filename.
+        /// <summary>
+        /// Gets or sets the filename.
+        /// </summary>
         public string SpatialFormFile { get; set; }
 
         public SpatialFormComponent(string file)
