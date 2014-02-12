@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using ECS;
 using Game.Systems;
 using Game.Components;
+using Game.Template;
 
 namespace Game
 {
@@ -78,10 +79,8 @@ namespace Game
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            player = entityWorld.CreateEntity();
-            player.AddComponent(new SpatialFormComponent("minimon for upload"));
-            player.AddComponent(new TransformComponent());
-            player.GetComponent<TransformComponent>().Position = new Vector3(0, 0, -10);
+
+            player = entityWorld.CreateFromTemplate<PlayerTemplate>();
         }
 
         protected override void UnloadContent()
