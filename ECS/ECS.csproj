@@ -38,6 +38,7 @@
     <Compile Include="EntitySystem.cs" />
     <Compile Include="EntityWorld.cs" />
     <Compile Include="IComponent.cs" />
+    <Compile Include="IEntityTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

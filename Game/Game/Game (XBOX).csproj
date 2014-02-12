@@ -79,6 +79,7 @@
     <Compile Include="StateManagement\ScreenManager\ScreenManager.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\RenderSystem.cs" />
+    <Compile Include="Template\PlayerTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
