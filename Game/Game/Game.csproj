@@ -78,6 +78,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="StateManagement\ScreenManager\GameScreen.cs" />
+    <Compile Include="StateManagement\ScreenManager\InputState.cs" />
+    <Compile Include="StateManagement\ScreenManager\ScreenManager.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\RenderSystem.cs" />
   </ItemGroup>
