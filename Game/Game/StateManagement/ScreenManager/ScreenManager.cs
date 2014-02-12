@@ -46,7 +46,7 @@ namespace Game.StateManagement.ScreenManager
             graphicsDevice  = BlackBoard.GetEntry<GraphicsDevice>("GraphicsDevice");
         }
 
-        void LoadContent()
+        public void LoadContent()
         {
             font         = content.Load<SpriteFont>("menufont");
             blankTexture = content.Load<Texture2D>("blank");
@@ -57,7 +57,7 @@ namespace Game.StateManagement.ScreenManager
             }
         }
 
-        void UnloadContent()
+        public void UnloadContent()
         {
             foreach (var scr in screens)
             {
@@ -65,7 +65,7 @@ namespace Game.StateManagement.ScreenManager
             }
         }
 
-        void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             // TODO: Get input.
 

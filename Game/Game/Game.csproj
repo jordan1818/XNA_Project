@@ -81,6 +81,7 @@
     <Compile Include="StateManagement\ScreenManager\GameScreen.cs" />
     <Compile Include="StateManagement\ScreenManager\InputState.cs" />
     <Compile Include="StateManagement\ScreenManager\ScreenManager.cs" />
+    <Compile Include="StateManagement\Screens\GameplayScreen.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\RenderSystem.cs" />
     <Compile Include="Template\PlayerTemplate.cs" />
