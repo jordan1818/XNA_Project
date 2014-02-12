@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using ECS;
 using Game.StateManagement.ScreenManager;
+using Game.StateManagement.Screens;
 
 namespace Game
 {
@@ -49,6 +50,8 @@ namespace Game
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             screenManager.LoadContent();
+
+            screenManager.AddScreen(new GameplayScreen(), null);
         }
 
         protected override void UnloadContent()
