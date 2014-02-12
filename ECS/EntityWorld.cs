@@ -52,6 +52,7 @@ namespace ECS
             return e;
         }
 
+
         /// <summary>
         /// Returns an entity. Will throw if an invalid ID is passed.
         /// </summary>
@@ -60,6 +61,19 @@ namespace ECS
         public Entity GetEntity(long ID)
         {
             return entities[ID];
+        }
+
+        /// <summary>
+        /// Creates an entity from template.
+        /// </summary>
+        /// <typeparam name="T">Entity template</typeparam>
+        /// <returns>Entity of the template</returns>
+        public Entity CreateFromTemplate<T>() where T:IEntityTemplate
+        {
+	        var e = CreateEntity();
+            var t = (T) Activator.CreateInstance(typeof(T), null);
+	        t.Build(e);
+	        return e;	
         }
 
         /// <summary>
