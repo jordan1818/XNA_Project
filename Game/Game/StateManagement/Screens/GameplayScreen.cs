@@ -24,8 +24,11 @@ namespace Game.StateManagement.Screens
 
         private EntityWorld entityWorld;
 
-        private Entity player;
-
+        public GameplayScreen()
+        {
+            TransitionOffTime = TimeSpan.FromSeconds(0.5);
+            TransitionOnTime = TimeSpan.FromSeconds(1.5);
+        }
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
@@ -35,28 +38,6 @@ namespace Game.StateManagement.Screens
                 GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Back))
             {
                 Environment.Exit(0);
-            }
-
-            // Debug controls. Input will be moved into the ECS in the future.
-            var transform = player.GetComponent<TransformComponent>();
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
-            {
-                transform.Position += new Vector3(0, 0, -1);
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Down))
-            {
-                transform.Position += new Vector3(0, 0, 1);
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
-            {
-                var rot = Quaternion.CreateFromYawPitchRoll(0, 0, 0.25f);
-                transform.Rotation *= rot;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Right))
-            {
-                var rot = Quaternion.CreateFromYawPitchRoll(0, 0, -0.25f);
-                transform.Rotation *= rot;
             }
 
             entityWorld.Update(gameTime.ElapsedGameTime);
@@ -73,12 +54,28 @@ namespace Game.StateManagement.Screens
             base.LoadContent();
 
             graphicsDevice = BlackBoard.GetEntry<GraphicsDevice>("GraphicsDevice");
-            spriteBatch = BlackBoard.GetEntry<SpriteBatch>("SpriteBatch");
+            spriteBatch    = BlackBoard.GetEntry<SpriteBatch>("SpriteBatch");
 
             InitMatrices();
             InitEntityWorld();
 
-            player = entityWorld.CreateFromTemplate<PlayerTemplate>();
+            var player = entityWorld.CreateFromTemplate<PlayerTemplate>();
+
+            // Add temp debug controls.
+            var transform = player.GetComponent<TransformComponent>();
+            var inputSystem = BlackBoard.GetEntry<InputSystem>("InputSystem");
+
+            inputSystem.MoveLeftIntent += (s, e) =>
+                {
+                    var rot = Quaternion.CreateFromYawPitchRoll(0, 0, 0.25f * e.modifier);
+                    transform.Rotation *= rot;
+                };
+
+            inputSystem.MoveRightIntent += (s, e) =>
+                {
+                    var rot = Quaternion.CreateFromYawPitchRoll(0, 0, -0.25f * e.modifier);
+                    transform.Rotation *= rot;
+                };
         }
 
         public override void UnloadContent()
@@ -103,6 +100,7 @@ namespace Game.StateManagement.Screens
             // Register the systems.
             entityWorld.RegisterSystem<MovementSystem>();
             entityWorld.RegisterSystem<RenderSystem>();
+            entityWorld.RegisterSystem<InputSystem>();
         }
     }
 }

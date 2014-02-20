@@ -30,6 +30,16 @@ namespace ECS
         /// </summary>
         public GameLoopType GameLoopType { get; protected set; }
 
+        /// <summary>
+        /// Called when the system starts processing the list of entities.
+        /// </summary>
+        public event EventHandler ProcessingStarted;
+
+        /// <summary>
+        /// Called when the system finishes processing the list of entities.
+        /// </summary>
+        public event EventHandler ProcessingFinished;
+
         public EntitySystem(EntityWorld entityWorld, Type[] types, GameLoopType gameLoopType)
         {
             this.entityWorld  = entityWorld;
@@ -66,9 +76,19 @@ namespace ECS
         /// <param name="entities">The list of entities.</param>
         internal void ProcessEntities(List<Entity> entities)
         {
+            if (ProcessingStarted != null)
+            {
+                ProcessingStarted(this, null);
+            }
+
             foreach (var e in entities)
             {
                 ProcessEntity(e);
+            }
+
+            if (ProcessingFinished != null)
+            {
+                ProcessingFinished(this, null);
             }
         }
     }

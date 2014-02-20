@@ -18,6 +18,8 @@ namespace Game.Template
         {
             e.AddComponent(new SpatialFormComponent("minimon for upload"));
             e.AddComponent(new TransformComponent());
+            e.AddComponent(new VelocityComponent());
+            e.AddComponent(new InputComponent());
             e.GetComponent<TransformComponent>().Position = new Vector3(0, 0, -10);
             return e;
         }
