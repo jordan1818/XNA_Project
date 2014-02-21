@@ -9,22 +9,35 @@ using Game.StateManagement.ScreenManager;
 
 namespace Game.Systems
 {
+    using MappingFunc = Action<PlayerIndex, GamePadThumbSticks, GamePadDPad>;
+    using Intent = EventHandler<InputEventArgs>;
+
     public class InputEventArgs : EventArgs
     {
         /// <summary>
-        /// Modifier value.
-        /// 
-        /// Example usage would be for analog joystick movement, to represent
-        /// how much the stick is pushed on a 0f..1f scale.
+        /// A reference to the input system which triggered the event.
         /// </summary>
-        public float modifier;
+        public InputState Input { get; set; }
+
+        private Vector2 direction;
 
         /// <summary>
-        /// A read only reference to the input system which triggered the event.
+        /// The normalized input direction for move events.
         /// </summary>
-        public InputState input;
-    }
+        public Vector2 Direction
+        {
+            set 
+            { 
+                direction = value; 
+            }
 
+            get
+            {
+                direction.Normalize();
+                return direction;
+            }
+        }
+    }
 
     /// <summary>
     /// Provides a mapping of input sources to intents, such as jump or move left.
@@ -39,13 +52,12 @@ namespace Game.Systems
         /// <summary>
         /// A list of all the input mapping functions.
         /// </summary>
-        private List<Action<PlayerIndex, GamePadThumbSticks, GamePadDPad>> inputMappings;
+        private List<MappingFunc> inputMappings;
 
-        public event EventHandler<InputEventArgs> JumpIntent;
-        public event EventHandler<InputEventArgs> MoveLeftIntent;
-        public event EventHandler<InputEventArgs> MoveRightIntent;
-        // TODO: Implement Move{Up,Down}Intent
-        // TODO: Implement StopMove*Intent
+        public event Intent JumpIntent;
+        public event Intent MoveIntent;
+
+        // TODO: Implement StopMove{*}Intent? Not sure if needed yet
 
         public InputSystem(EntityWorld entityWorld) :
             base(entityWorld, new Type[] { typeof(InputComponent) }, GameLoopType.Update)
@@ -60,9 +72,9 @@ namespace Game.Systems
             ProcessingStarted += new EventHandler(InputSystem_ProcessingStarted);
 
             // Register the mappings
-            inputMappings = new List<Action<PlayerIndex, GamePadThumbSticks, GamePadDPad>>
+            inputMappings = new List<MappingFunc>
             {
-                MapJump, MapLeft, MapRight
+                MapArrows, MapDpad, MapLeftStick, MapJump
             };
         }
 
@@ -70,7 +82,6 @@ namespace Game.Systems
         {
             // Do nothing for now.
         }
-
         /// <summary>
         /// Acts as an 'update' method which is called once per frame by
         /// hooking into the ProcessEntities call.
@@ -86,85 +97,87 @@ namespace Game.Systems
             sticks.Right.Normalize();
 
             // Process all the mappings.
-            foreach (var map in inputMappings)
+            foreach (var mapping in inputMappings)
             {
-                if (map != null)
-                {
-                    map(pIndex, sticks, dPad);
-                }
+                mapping(pIndex, sticks, dPad);
             }
         }
 
-        /// <summary>
-        /// Map the inputs to a jump intent.
-        /// </summary>
-        /// <param name="pIndex">The PlayerIndex used to query the input class.</param>
-        /// <param name="sticks">The normalized thumb stick vectors.</param>
-        /// <param name="dPad">The dpad.</param>
         private void MapJump(PlayerIndex pIndex, GamePadThumbSticks sticks, GamePadDPad dPad)
         {
+            if (JumpIntent == null)
+                return;
+
             if (JumpIntent != null && (input.IsNewButtonPress(Buttons.A, pIndex, out pIndex) ||
                                        input.IsNewKeyPress(Keys.Space, pIndex, out pIndex)))
             {
-                JumpIntent(this, new InputEventArgs { input = this.input });
+                JumpIntent(this, new InputEventArgs { Input = this.input });
+            }
+        }
+  
+        private void MapDpad(PlayerIndex pIndex, GamePadThumbSticks sticks, GamePadDPad dPad)
+        {
+            if (MoveIntent == null)
+                return;
+
+            // TODO: Check for new dPad presses only.
+
+            Vector2 direction = new Vector2();
+
+            // Check X Axis
+            if (dPad.Left == ButtonState.Pressed)
+                direction.X = -1;
+            else if (dPad.Right == ButtonState.Pressed)
+                direction.X = 1;
+
+            // Check Y Axis
+            if (dPad.Up == ButtonState.Pressed)
+                direction.Y = 1;
+            else if (dPad.Down == ButtonState.Pressed)
+                direction.Y = -1;
+
+
+            if (direction != Vector2.Zero)
+            {
+                direction.Normalize();
+                MoveIntent(this, new InputEventArgs { Direction = direction, Input = input });
             }
         }
 
-        /// <summary>
-        /// Map the inputs to a move left intent.
-        /// </summary>
-        /// <param name="pIndex">The PlayerIndex used to query the input class.</param>
-        /// <param name="sticks">The normalized thumb stick vectors.</param>
-        /// <param name="dPad">The dpad.</param>
-        private void MapLeft(PlayerIndex pIndex, GamePadThumbSticks sticks, GamePadDPad dPad)
+        private void MapArrows(PlayerIndex pIndex, GamePadThumbSticks sticks, GamePadDPad dPad)
         {
-            if (MoveLeftIntent != null && (input.IsNewKeyPress(Keys.Left, pIndex, out pIndex) ||
-                                           dPad.Left == ButtonState.Pressed))
+            if (MoveIntent == null)
+                return;
+
+            Vector2 direction = new Vector2();
+
+            // Check X Axis
+            if (input.IsNewKeyPress(Keys.Left, pIndex, out pIndex))
+                direction.X = -1;
+            else if (input.IsNewKeyPress(Keys.Right, pIndex, out pIndex))
+                direction.X = 1;
+            
+            // Check Y Axis
+            if (input.IsNewKeyPress(Keys.Up, pIndex, out pIndex))
+                direction.Y = 1;
+            else if (input.IsNewKeyPress(Keys.Down, pIndex, out pIndex))
+                direction.Y = -1;
+
+            if (direction != Vector2.Zero)
             {
-                // Keyboard or DPad
-                MoveLeftIntent(this, new InputEventArgs
-                {
-                    input = this.input,
-                    modifier = 1f
-                });
-            }
-            else if (MoveLeftIntent != null && sticks.Left.X < 0)
-            {
-                // Left stick
-                MoveLeftIntent(this, new InputEventArgs
-                {
-                    input = this.input,
-                    modifier = sticks.Left.X
-                });
+                direction.Normalize();
+                MoveIntent(this, new InputEventArgs { Direction = direction, Input = input });
             }
         }
 
-        /// <summary>
-        /// Map the inputs to a move right intent.
-        /// </summary>
-        /// <param name="pIndex">The PlayerIndex used to query the input class.</param>
-        /// <param name="sticks">The normalized thumb stick vectors.</param>
-        /// <param name="dPad">The dpad.</param>
-        private void MapRight(PlayerIndex pIndex, GamePadThumbSticks sticks, GamePadDPad dPad)
+        private void MapLeftStick(PlayerIndex pIndex, GamePadThumbSticks sticks, GamePadDPad dPad)
         {
-            if (MoveRightIntent != null && (input.IsNewKeyPress(Keys.Right, pIndex, out pIndex) ||
-                                           dPad.Right == ButtonState.Pressed))
+            if (MoveIntent == null)
+                return;
+
+            if (sticks.Left != Vector2.Zero)
             {
-                // Keyboard or DPad
-                MoveRightIntent(this, new InputEventArgs
-                {
-                    input = this.input,
-                    modifier = 1f
-                });
-            }
-            else if (MoveRightIntent != null && sticks.Left.X > 0)
-            {
-                // Left stick
-                MoveRightIntent(this, new InputEventArgs
-                {
-                    input = this.input,
-                    modifier = sticks.Left.X
-                });
+                MoveIntent(this, new InputEventArgs { Direction = sticks.Left, Input = input });
             }
         }
     }

@@ -65,15 +65,9 @@ namespace Game.StateManagement.Screens
             var transform = player.GetComponent<TransformComponent>();
             var inputSystem = BlackBoard.GetEntry<InputSystem>("InputSystem");
 
-            inputSystem.MoveLeftIntent += (s, e) =>
+            inputSystem.MoveIntent += (s, e) =>
                 {
-                    var rot = Quaternion.CreateFromYawPitchRoll(0, 0, 0.25f * e.modifier);
-                    transform.Rotation *= rot;
-                };
-
-            inputSystem.MoveRightIntent += (s, e) =>
-                {
-                    var rot = Quaternion.CreateFromYawPitchRoll(0, 0, -0.25f * e.modifier);
+                    var rot = Quaternion.CreateFromYawPitchRoll(0, 0.25f * e.Direction.Y, 0.25f * e.Direction.X);
                     transform.Rotation *= rot;
                 };
         }
