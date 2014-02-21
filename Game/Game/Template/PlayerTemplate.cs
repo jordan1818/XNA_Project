@@ -16,6 +16,7 @@ namespace Game.Template
 
         public Entity Build(Entity e)
         {
+            e.Tag = "PLAYER";
             e.AddComponent(new SpatialFormComponent("minimon for upload"));
             e.AddComponent(new TransformComponent());
             e.AddComponent(new VelocityComponent());

@@ -15,9 +15,14 @@ namespace Game.Systems
     public class InputEventArgs : EventArgs
     {
         /// <summary>
-        /// A reference to the input system which triggered the event.
+        /// The InputState which triggered the event.
         /// </summary>
         public InputState Input { get; set; }
+
+        /// <summary>
+        /// The EntityWorld the InputSystem belongs to.
+        /// </summary>
+        public EntityWorld entityWorld { get; set; }
 
         private Vector2 direction;
 
@@ -57,8 +62,6 @@ namespace Game.Systems
         public event Intent JumpIntent;
         public event Intent MoveIntent;
 
-        // TODO: Implement StopMove{*}Intent? Not sure if needed yet
-
         public InputSystem(EntityWorld entityWorld) :
             base(entityWorld, new Type[] { typeof(InputComponent) }, GameLoopType.Update)
         {
@@ -82,6 +85,7 @@ namespace Game.Systems
         {
             // Do nothing for now.
         }
+
         /// <summary>
         /// Acts as an 'update' method which is called once per frame by
         /// hooking into the ProcessEntities call.
@@ -103,12 +107,14 @@ namespace Game.Systems
             }
         }
 
+        #region Mappings
+
         private void MapJump(PlayerIndex pIndex, GamePadThumbSticks sticks, GamePadDPad dPad)
         {
             if (JumpIntent != null && (input.IsNewButtonPress(Buttons.A, pIndex, out pIndex) ||
                                        input.IsNewKeyPress(Keys.Space, pIndex, out pIndex)))
             {
-                JumpIntent(this, new InputEventArgs { Input = this.input });
+                JumpIntent(this, new InputEventArgs { Input = this.input, entityWorld = entityWorld });
             }
         }
   
@@ -137,7 +143,7 @@ namespace Game.Systems
             if (direction != Vector2.Zero)
             {
                 direction.Normalize();
-                MoveIntent(this, new InputEventArgs { Direction = direction, Input = input });
+                MoveIntent(this, new InputEventArgs { Direction = direction, Input = input, entityWorld = entityWorld });
             }
         }
 
@@ -163,7 +169,7 @@ namespace Game.Systems
             if (direction != Vector2.Zero)
             {
                 direction.Normalize();
-                MoveIntent(this, new InputEventArgs { Direction = direction, Input = input });
+                MoveIntent(this, new InputEventArgs { Direction = direction, Input = input, entityWorld = entityWorld });
             }
         }
 
@@ -171,8 +177,10 @@ namespace Game.Systems
         {
             if (MoveIntent != null && sticks.Left != Vector2.Zero)
             {
-                MoveIntent(this, new InputEventArgs { Direction = sticks.Left, Input = input });
+                MoveIntent(this, new InputEventArgs { Direction = sticks.Left, Input = input, entityWorld = entityWorld });
             }
         }
+
+        #endregion
     }
 }

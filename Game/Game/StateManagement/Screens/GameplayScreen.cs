@@ -38,6 +38,7 @@ namespace Game.StateManagement.Screens
                 GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Back))
             {
                 Environment.Exit(0);
+                // TODO: This should open a menu or title screen.
             }
 
             entityWorld.Update(gameTime.ElapsedGameTime);
@@ -59,15 +60,16 @@ namespace Game.StateManagement.Screens
             InitMatrices();
             InitEntityWorld();
 
-            var player = entityWorld.CreateFromTemplate<PlayerTemplate>();
+            entityWorld.CreateFromTemplate<PlayerTemplate>();
 
             // Add temp debug controls.
-            var transform = player.GetComponent<TransformComponent>();
             var inputSystem = BlackBoard.GetEntry<InputSystem>("InputSystem");
 
             inputSystem.MoveIntent += (s, e) =>
                 {
-                    var rot = Quaternion.CreateFromYawPitchRoll(0, 0.25f * e.Direction.Y, 0.25f * e.Direction.X);
+                    var transform = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<TransformComponent>();
+
+                    var rot = Quaternion.CreateFromYawPitchRoll(0, -0.25f * e.Direction.Y, -0.25f * e.Direction.X);
                     transform.Rotation *= rot;
                 };
         }
