@@ -105,9 +105,6 @@ namespace Game.Systems
 
         private void MapJump(PlayerIndex pIndex, GamePadThumbSticks sticks, GamePadDPad dPad)
         {
-            if (JumpIntent == null)
-                return;
-
             if (JumpIntent != null && (input.IsNewButtonPress(Buttons.A, pIndex, out pIndex) ||
                                        input.IsNewKeyPress(Keys.Space, pIndex, out pIndex)))
             {
@@ -172,10 +169,7 @@ namespace Game.Systems
 
         private void MapLeftStick(PlayerIndex pIndex, GamePadThumbSticks sticks, GamePadDPad dPad)
         {
-            if (MoveIntent == null)
-                return;
-
-            if (sticks.Left != Vector2.Zero)
+            if (MoveIntent != null && sticks.Left != Vector2.Zero)
             {
                 MoveIntent(this, new InputEventArgs { Direction = sticks.Left, Input = input });
             }
