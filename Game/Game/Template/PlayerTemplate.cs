@@ -16,9 +16,12 @@ namespace Game.Template
 
         public Entity Build(Entity e)
         {
+            e.Tag = "PLAYER";
             e.AddComponent(new SpatialFormComponent("minimon for upload"));
             e.AddComponent(new TransformComponent());
-            e.GetComponent<TransformComponent>().Position = new Vector3(0, 0, -10);
+            e.AddComponent(new VelocityComponent());
+            e.AddComponent(new InputComponent());
+            e.GetComponent<TransformComponent>().Position = new Vector3(0, 0, -45);
             return e;
         }
    

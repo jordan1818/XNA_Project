@@ -68,6 +68,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\InputComponent.cs" />
     <Compile Include="Components\SpatialFormComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
@@ -77,7 +78,10 @@
     <Compile Include="StateManagement\ScreenManager\GameScreen.cs" />
     <Compile Include="StateManagement\ScreenManager\InputState.cs" />
     <Compile Include="StateManagement\ScreenManager\ScreenManager.cs" />
-    <Compile Include="StateManagement\Screens\GameplayScreen.cs" />
+    <Compile Include="StateManagement\Screens\GameplayScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Systems\InputSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\RenderSystem.cs" />
     <Compile Include="Template\PlayerTemplate.cs" />

@@ -19,6 +19,8 @@ namespace Game.StateManagement.ScreenManager
     {
         Microsoft.Xna.Framework.Game game;
 
+        InputState input;
+
         List<GameScreen> screens;
         List<GameScreen> screensToUpdate;
 
@@ -39,11 +41,14 @@ namespace Game.StateManagement.ScreenManager
         public ScreenManager(Microsoft.Xna.Framework.Game game)
         {
             this.game       = game;
+            input           = new InputState();
             screens         = new List<GameScreen>();
             screensToUpdate = new List<GameScreen>();
             spriteBatch     = BlackBoard.GetEntry<SpriteBatch>("SpriteBatch");
             content         = BlackBoard.GetEntry<ContentManager>("ContentManager");
             graphicsDevice  = BlackBoard.GetEntry<GraphicsDevice>("GraphicsDevice");
+
+            BlackBoard.SetEntry("Input", input);
         }
 
         public void LoadContent()
@@ -67,7 +72,7 @@ namespace Game.StateManagement.ScreenManager
 
         public void Update(GameTime gameTime)
         {
-            // TODO: Get input.
+            input.Update();
 
             // Make a copy of the master screen list, to avoid confusion if
             // the process of updating on screen adds or removes others.
@@ -95,10 +100,10 @@ namespace Game.StateManagement.ScreenManager
                     scr.ScreenState == ScreenState.Active)
                 {
                     // If this is the first active screen we came across,
-                    // give it a change to handle input.
+                    // give it a chance to handle input.
                     if (!otherScreenHasFocus)
                     {
-                        scr.HandleInput(null); // TODO: pass input state.
+                        scr.HandleInput(input);
                         otherScreenHasFocus = false;
                     }
 
