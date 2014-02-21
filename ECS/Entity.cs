@@ -14,6 +14,11 @@ namespace ECS
         public long UniqueID { get; internal set; }
 
         /// <summary>
+        /// A tag to give a more descriptive name to the entity. (eg. Player)
+        /// </summary>
+        public string Tag { get; set; }
+
+        /// <summary>
         /// The entity's components mapped to their type.
         /// </summary>
         private Dictionary<Type, IComponent> components;

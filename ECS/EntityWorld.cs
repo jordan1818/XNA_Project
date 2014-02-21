@@ -52,7 +52,6 @@ namespace ECS
             return e;
         }
 
-
         /// <summary>
         /// Returns an entity. Will throw if an invalid ID is passed.
         /// </summary>
@@ -61,6 +60,13 @@ namespace ECS
         public Entity GetEntity(long ID)
         {
             return entities[ID];
+        }
+
+        public Entity GetEntityByTag(string tag)
+        {
+            return  (from entity in entities
+                     where entity.Value.Tag == tag
+                     select entity).Single().Value;
         }
 
         /// <summary>
