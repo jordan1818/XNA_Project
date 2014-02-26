@@ -16,7 +16,7 @@ namespace Game.Systems
         private ContentManager contentManager;
         private GraphicsDevice graphicsDevice;
         
-        private readonly Matrix projectionMatrix, viewMatrix;
+        private Matrix projectionMatrix, viewMatrix;
 
         private Dictionary<string, Model> models;
 
@@ -38,6 +38,8 @@ namespace Game.Systems
                     graphicsDevice.DepthStencilState = DepthStencilState.Default;
                     // Something resets sampler 0 so this has to be set each frame  
                     graphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
+                    viewMatrix = BlackBoard.GetEntry<Matrix>("ViewMatrix");
                 };
         }
 
