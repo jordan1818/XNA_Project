@@ -78,9 +78,15 @@
     <Compile Include="StateManagement\ScreenManager\GameScreen.cs" />
     <Compile Include="StateManagement\ScreenManager\InputState.cs" />
     <Compile Include="StateManagement\ScreenManager\ScreenManager.cs" />
+    <Compile Include="StateManagement\Screens\BackgroundScreen.cs" />
     <Compile Include="StateManagement\Screens\GameplayScreen.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="StateManagement\Screens\LoadingScreen.cs" />
+    <Compile Include="StateManagement\Screens\MainMenuScreen.cs" />
+    <Compile Include="StateManagement\Screens\MenuEntry.cs" />
+    <Compile Include="StateManagement\Screens\MenuScreen.cs" />
+    <Compile Include="StateManagement\Screens\MessageBoxScreen.cs" />
     <Compile Include="Systems\InputSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\RenderSystem.cs" />

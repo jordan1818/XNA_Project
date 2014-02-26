@@ -71,6 +71,7 @@ namespace Game.StateManagement.Screens
 
                     var rot = Quaternion.CreateFromYawPitchRoll(0, -0.25f * e.Direction.Y, -0.25f * e.Direction.X);
                     transform.Rotation *= rot;
+                    transform.Rotation.Normalize();
                 };
         }
 

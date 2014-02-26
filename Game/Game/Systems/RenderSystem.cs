@@ -14,6 +14,7 @@ namespace Game.Systems
     public sealed class RenderSystem : EntitySystem
     {
         private ContentManager contentManager;
+        private GraphicsDevice graphicsDevice;
         
         private readonly Matrix projectionMatrix, viewMatrix;
 
@@ -24,10 +25,20 @@ namespace Game.Systems
         {
             // Load entries from the blackboard.
             contentManager   = BlackBoard.GetEntry<ContentManager>("ContentManager");
+            graphicsDevice   = BlackBoard.GetEntry<GraphicsDevice>("GraphicsDevice");
             projectionMatrix = BlackBoard.GetEntry<Matrix>("ProjectionMatrix");
             viewMatrix       = BlackBoard.GetEntry<Matrix>("ViewMatrix");
 
             models = new Dictionary<string, Model>();
+
+            ProcessingStarted += (s, e) =>
+                {
+                    // Set states ready for 3D  
+                    graphicsDevice.BlendState = BlendState.Opaque;
+                    graphicsDevice.DepthStencilState = DepthStencilState.Default;
+                    // Something resets sampler 0 so this has to be set each frame  
+                    graphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+                };
         }
 
         protected override void Process(Entity entity)

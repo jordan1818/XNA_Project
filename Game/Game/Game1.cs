@@ -40,6 +40,9 @@ namespace Game
         /// </summary>
         private void InitBlackBoard()
         {
+             // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
             BlackBoard.SetEntry("ContentManager"  , Content);
             BlackBoard.SetEntry("GraphicsDevice"  , GraphicsDevice);
             BlackBoard.SetEntry("SpriteBatch"     , spriteBatch);
@@ -47,11 +50,10 @@ namespace Game
 
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
             screenManager.LoadContent();
 
-            screenManager.AddScreen(new GameplayScreen(), null);
+            screenManager.AddScreen(new BackgroundScreen(), null);
+            screenManager.AddScreen(new MainMenuScreen(), null);
         }
 
         protected override void UnloadContent()

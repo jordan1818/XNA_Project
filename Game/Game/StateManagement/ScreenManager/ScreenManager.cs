@@ -17,7 +17,7 @@ namespace Game.StateManagement.ScreenManager
     /// </summary>
     public class ScreenManager
     {
-        Microsoft.Xna.Framework.Game game;
+        public Microsoft.Xna.Framework.Game game;
 
         InputState input;
 
@@ -26,10 +26,29 @@ namespace Game.StateManagement.ScreenManager
 
         SpriteBatch spriteBatch;
         ContentManager content;
-        GraphicsDevice graphicsDevice;
+        public GraphicsDevice graphicsDevice;
 
         Texture2D blankTexture;
         SpriteFont font;
+
+        /// <summary>
+        /// A default SpriteBatch shared by all the screens. This saves
+        /// each screen having to bother creating their own local instance.
+        /// </summary>
+        public SpriteBatch SpriteBatch
+        {
+            get { return spriteBatch; }
+        }
+
+
+        /// <summary>
+        /// A default font shared by all the screens. This saves
+        /// each screen having to bother loading their own local copy.
+        /// </summary>
+        public SpriteFont Font
+        {
+            get { return font; }
+        }
 
         /// <summary>
         /// If true, the manager prints out a list of all the screens each
@@ -180,6 +199,16 @@ namespace Game.StateManagement.ScreenManager
 
             screens.Remove(screen);
             screensToUpdate.Remove(screen);
+        }
+
+        /// <summary>
+        /// Expose an array holding all the screens. We return a copy rather
+        /// than the real master list, because screens should only ever be added
+        /// or removed using the AddScreen and RemoveScreen methods.
+        /// </summary>
+        public GameScreen[] GetScreens()
+        {
+            return screens.ToArray();
         }
 
         /// <summary>
