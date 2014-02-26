@@ -31,7 +31,7 @@ namespace Game.Systems
             var player = entityWorld.GetEntityByTag("PLAYER");
             var pos = player.GetComponent<TransformComponent>().Position;
              
-            viewMatrix = Matrix.CreateLookAt(new Vector3(pos.X, 45f, 0), pos, Vector3.Up);
+            viewMatrix = Matrix.CreateLookAt(new Vector3(pos.X, 45f, 0), new Vector3(pos.X, pos.Y, -45f), Vector3.Up);
             BlackBoard.SetEntry("ViewMatrix", viewMatrix);
         }
     }

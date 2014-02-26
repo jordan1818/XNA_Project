@@ -22,6 +22,7 @@ namespace Game.Template
             e.AddComponent(new VelocityComponent());
             e.AddComponent(new InputComponent());
             e.GetComponent<TransformComponent>().Position = new Vector3(0, 0, -45);
+            e.GetComponent<TransformComponent>().Rotation = Quaternion.CreateFromYawPitchRoll(1.5f, 0, 0);
             return e;
         }
    

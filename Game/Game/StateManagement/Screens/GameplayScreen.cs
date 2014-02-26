@@ -68,10 +68,7 @@ namespace Game.StateManagement.Screens
             inputSystem.MoveIntent += (s, e) =>
                 {
                     var transform = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<TransformComponent>();
-                    transform.Position += new Vector3(e.Direction, 0f);
-                    //var rot = Quaternion.CreateFromYawPitchRoll(0, -0.25f * e.Direction.Y, -0.25f * e.Direction.X);
-                    //transform.Rotation *= rot;
-                    //transform.Rotation.Normalize();
+                    transform.Position += new Vector3(e.Direction.X, 0f, -e.Direction.Y);
                 };
         }
 
