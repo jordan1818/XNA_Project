@@ -25,6 +25,7 @@ namespace Game.Systems
             var transform = entity.GetComponent<TransformComponent>();
 
             transform.Position += vel.Velocity * entityWorld.DeltaTime.Milliseconds;
+            vel.Velocity *= 0.98f;
         }
     }
 }

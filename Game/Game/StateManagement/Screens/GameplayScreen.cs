@@ -72,6 +72,13 @@ namespace Game.StateManagement.Screens
                     var transform = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<TransformComponent>();
                     transform.Position += new Vector3(e.Direction.X, 0f, -e.Direction.Y);
                 };
+
+            inputSystem.JumpIntent += (s, e) =>
+                {
+                    var vel = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<VelocityComponent>();
+
+                    vel.Velocity += new Vector3(0, 0.03f, 0);
+                };
         }
 
         public override void UnloadContent()
