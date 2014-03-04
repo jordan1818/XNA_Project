@@ -37,7 +37,9 @@ namespace Game.StateManagement.Screens
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) ||
                 GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Back))
             {
-                Environment.Exit(0);
+                var quit = BlackBoard.GetEntry<Action>("QuitFunc");
+                quit();
+                
                 // TODO: This should open a menu or title screen.
             }
 
