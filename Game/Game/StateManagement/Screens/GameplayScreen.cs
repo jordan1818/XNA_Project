@@ -37,7 +37,9 @@ namespace Game.StateManagement.Screens
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) ||
                 GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Back))
             {
-                Environment.Exit(0);
+                var quit = BlackBoard.GetEntry<Action>("QuitFunc");
+                quit();
+                
                 // TODO: This should open a menu or title screen.
             }
 
@@ -59,6 +61,7 @@ namespace Game.StateManagement.Screens
 
             InitMatrices();
             InitEntityWorld();
+            //CreateObstacle();
 
             entityWorld.CreateFromTemplate<PlayerTemplate>();
 
@@ -70,6 +73,21 @@ namespace Game.StateManagement.Screens
                     var transform = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<TransformComponent>();
                     transform.Position += new Vector3(e.Direction.X, 0f, -e.Direction.Y);
                 };
+
+            inputSystem.JumpIntent += (s, e) =>
+                {
+                    var vel = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<VelocityComponent>();
+                    vel.applyGravity = true;
+                    vel.Velocity = new Vector3(0, 0.03f, 0);
+                };
+        }
+
+        private void CreateObstacle()
+        {   
+            var table = entityWorld.CreateEntity();
+            table.AddComponent(new SpatialFormComponent(""));
+            table.AddComponent(new TransformComponent());
+            
         }
 
         public override void UnloadContent()
@@ -92,7 +110,9 @@ namespace Game.StateManagement.Screens
             entityWorld = new EntityWorld();
 
             // Register the systems.
-            entityWorld.RegisterSystem<MovementSystem>();
+            //entityWorld.RegisterSystem<MovementSystem>();
+            entityWorld.RegisterSystem<GravitySystem>();
+
             entityWorld.RegisterSystem<RenderSystem>();
             entityWorld.RegisterSystem<InputSystem>();
             entityWorld.RegisterSystem<CameraSystem>();

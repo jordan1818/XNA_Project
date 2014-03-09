@@ -46,6 +46,7 @@ namespace Game
             BlackBoard.SetEntry("ContentManager"  , Content);
             BlackBoard.SetEntry("GraphicsDevice"  , GraphicsDevice);
             BlackBoard.SetEntry("SpriteBatch"     , spriteBatch);
+            BlackBoard.SetEntry("QuitFunc"        , (Action)this.Exit);
         }
 
         protected override void LoadContent()
