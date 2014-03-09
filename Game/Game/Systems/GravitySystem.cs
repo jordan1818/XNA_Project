@@ -1,30 +1,36 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using ECS;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Game.Components;
 
 namespace Game.Systems
 {
-    /// <summary>
-    /// Provides movement to any entity with a velocity and transform component.
-    /// </summary>
-    public sealed class MovementSystem : EntitySystem
+    class GravitySystem : EntitySystem
     {
-        public MovementSystem(EntityWorld entityWorld) :
+        private float gravity = 0.00098f;
+
+            public GravitySystem(EntityWorld entityWorld) :
             base(entityWorld, new Type[] { typeof(VelocityComponent), typeof(TransformComponent) }, GameLoopType.Update)
         {
         }
 
-        /// <summary>
-        /// Updates the entities position based on it's velocity.
-        /// </summary>
-        /// <param name="entity">The entity being processed.</param>
         protected override void Process(Entity entity)
         {
             var vel = entity.GetComponent<VelocityComponent>();
             var transform = entity.GetComponent<TransformComponent>();
 
             transform.Position += vel.Velocity * entityWorld.DeltaTime.Milliseconds;
+
+            if (vel.applyGravity)
+                vel.Velocity -= new Vector3(0, gravity, 0);
+
+            if (transform.Position.Y <= 0.0f)
+                vel.applyGravity = false;
+
+            if (vel.applyGravity == false)
+                vel.Velocity = Vector3.Zero;
         }
     }
 }

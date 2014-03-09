@@ -61,6 +61,7 @@ namespace Game.StateManagement.Screens
 
             InitMatrices();
             InitEntityWorld();
+            //CreateObstacle();
 
             entityWorld.CreateFromTemplate<PlayerTemplate>();
 
@@ -76,9 +77,17 @@ namespace Game.StateManagement.Screens
             inputSystem.JumpIntent += (s, e) =>
                 {
                     var vel = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<VelocityComponent>();
-
-                    vel.Velocity += new Vector3(0, 0.03f, 0);
+                    vel.applyGravity = true;
+                    vel.Velocity = new Vector3(0, 0.03f, 0);
                 };
+        }
+
+        private void CreateObstacle()
+        {   
+            var table = entityWorld.CreateEntity();
+            table.AddComponent(new SpatialFormComponent(""));
+            table.AddComponent(new TransformComponent());
+            
         }
 
         public override void UnloadContent()
@@ -101,7 +110,9 @@ namespace Game.StateManagement.Screens
             entityWorld = new EntityWorld();
 
             // Register the systems.
-            entityWorld.RegisterSystem<MovementSystem>();
+            //entityWorld.RegisterSystem<MovementSystem>();
+            entityWorld.RegisterSystem<GravitySystem>();
+
             entityWorld.RegisterSystem<RenderSystem>();
             entityWorld.RegisterSystem<InputSystem>();
             entityWorld.RegisterSystem<CameraSystem>();

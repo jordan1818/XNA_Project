@@ -13,10 +13,12 @@ namespace Game.Components
         /// The velocity of the entity.
         /// </summary>
         public Vector3 Velocity { get; set; }
+        public bool applyGravity { get; set; }
 
         public VelocityComponent()
         {
             Velocity = Vector3.Zero;
+            applyGravity = false;
         }
     }
 }

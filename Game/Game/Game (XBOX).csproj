@@ -88,9 +88,11 @@
     <Compile Include="StateManagement\Screens\MenuScreen.cs" />
     <Compile Include="StateManagement\Screens\MessageBoxScreen.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
+    <Compile Include="Systems\GravitySystem.cs" />
     <Compile Include="Systems\InputSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\RenderSystem.cs" />
+    <Compile Include="Template\EnemyTemplate.cs" />
     <Compile Include="Template\PlayerTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
