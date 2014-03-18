@@ -61,6 +61,7 @@ namespace Game.StateManagement.Screens
 
             InitMatrices();
             InitEntityWorld();
+            CreateBackground();
             //CreateObstacle();
 
             entityWorld.CreateFromTemplate<PlayerTemplate>();
@@ -77,9 +78,22 @@ namespace Game.StateManagement.Screens
             inputSystem.JumpIntent += (s, e) =>
                 {
                     var vel = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<VelocityComponent>();
+                    var jump = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<JumpComponent>();
                     vel.applyGravity = true;
+                    jump.WantToJump = true;
                     vel.Velocity = new Vector3(0, 0.03f, 0);
                 };
+        }
+
+        private void CreateBackground()
+        {
+            var background = entityWorld.CreateEntity();
+            background.AddComponent(new SpatialFormComponent("hospital"));
+            background.AddComponent(new TransformComponent());
+  
+            var transform = background.GetComponent<TransformComponent>();
+            transform.Position = new Vector3(0, 0, -25.0f);
+            transform.Scale = new Vector3(0.15f, 0.15f, 0.15f);
         }
 
         private void CreateObstacle()
@@ -110,9 +124,9 @@ namespace Game.StateManagement.Screens
             entityWorld = new EntityWorld();
 
             // Register the systems.
-            //entityWorld.RegisterSystem<MovementSystem>();
+            entityWorld.RegisterSystem<MovementSystem>();
+            entityWorld.RegisterSystem<JumpSystem>();
             entityWorld.RegisterSystem<GravitySystem>();
-
             entityWorld.RegisterSystem<RenderSystem>();
             entityWorld.RegisterSystem<InputSystem>();
             entityWorld.RegisterSystem<CameraSystem>();

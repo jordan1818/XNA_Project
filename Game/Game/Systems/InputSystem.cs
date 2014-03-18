@@ -112,7 +112,7 @@ namespace Game.Systems
         private void MapJump(PlayerIndex pIndex, GamePadThumbSticks sticks, GamePadDPad dPad)
         {
             if (JumpIntent != null && (input.IsNewButtonPress(Buttons.A, pIndex, out pIndex) ||
-                                       input.IsNewKeyPress(Keys.Space, pIndex, out pIndex)))
+                                        input.IsNewKeyPress(Keys.Space, pIndex, out pIndex)))
             {
                 JumpIntent(this, new InputEventArgs { Input = this.input, entityWorld = entityWorld });
             }

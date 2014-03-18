@@ -12,7 +12,7 @@ namespace Game.Systems
         private float gravity = 0.00098f;
 
             public GravitySystem(EntityWorld entityWorld) :
-            base(entityWorld, new Type[] { typeof(VelocityComponent), typeof(TransformComponent) }, GameLoopType.Update)
+            base(entityWorld, new Type[] { typeof(VelocityComponent), typeof(TransformComponent), typeof(JumpComponent)}, GameLoopType.Update)
         {
         }
 
@@ -20,14 +20,16 @@ namespace Game.Systems
         {
             var vel = entity.GetComponent<VelocityComponent>();
             var transform = entity.GetComponent<TransformComponent>();
-
-            transform.Position += vel.Velocity * entityWorld.DeltaTime.Milliseconds;
+            var jump = entity.GetComponent<JumpComponent>();
 
             if (vel.applyGravity)
                 vel.Velocity -= new Vector3(0, gravity, 0);
 
             if (transform.Position.Y <= 0.0f)
+            {
+                transform.Position = new Vector3(transform.Position.X, 0, transform.Position.Z);
                 vel.applyGravity = false;
+            }
 
             if (vel.applyGravity == false)
                 vel.Velocity = Vector3.Zero;

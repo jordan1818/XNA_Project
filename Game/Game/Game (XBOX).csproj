@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\InputComponent.cs" />
+    <Compile Include="Components\JumpComponent.cs" />
     <Compile Include="Components\SpatialFormComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Systems\GravitySystem.cs" />
     <Compile Include="Systems\InputSystem.cs" />
+    <Compile Include="Systems\JumpSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\RenderSystem.cs" />
     <Compile Include="Template\EnemyTemplate.cs" />
