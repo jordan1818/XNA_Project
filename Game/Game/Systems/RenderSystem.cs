@@ -20,6 +20,11 @@ namespace Game.Systems
 
         private Dictionary<string, Model> models;
 
+        // Temp variables to hold original graphicsDevice state.
+        BlendState        origBlendState;
+        DepthStencilState origDepthStencilState;
+        SamplerState      origSamplerState;
+
         public RenderSystem(EntityWorld entityWorld) :
             base(entityWorld, new Type[] { typeof(TransformComponent), typeof(SpatialFormComponent) }, GameLoopType.Draw )
         {
@@ -33,13 +38,26 @@ namespace Game.Systems
 
             ProcessingStarted += (s, e) =>
                 {
+                    // Save the original state.
+                    origBlendState        = graphicsDevice.BlendState;
+                    origDepthStencilState = graphicsDevice.DepthStencilState;
+                    origSamplerState      = graphicsDevice.SamplerStates[0];
+
                     // Set states ready for 3D  
-                    graphicsDevice.BlendState = BlendState.Opaque;
+                    graphicsDevice.BlendState        = BlendState.Opaque;
                     graphicsDevice.DepthStencilState = DepthStencilState.Default;
                     // Something resets sampler 0 so this has to be set each frame  
-                    graphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+                    graphicsDevice.SamplerStates[0]  = SamplerState.LinearWrap;
 
                     viewMatrix = BlackBoard.GetEntry<Matrix>("ViewMatrix");
+                };
+
+            ProcessingFinished += (s, e) =>
+                {
+                    // Restore the original graphics state.
+                    graphicsDevice.BlendState = origBlendState;
+                    graphicsDevice.DepthStencilState = origDepthStencilState;
+                    graphicsDevice.SamplerStates[0] = origSamplerState;
                 };
         }
 
