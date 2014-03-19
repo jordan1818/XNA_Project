@@ -61,6 +61,8 @@ namespace Game.StateManagement.Screens
 
             InitMatrices();
             InitEntityWorld();
+            CreateBackground();
+            //CreateObstacle();
 
             entityWorld.CreateFromTemplate<PlayerTemplate>();
 
@@ -70,11 +72,36 @@ namespace Game.StateManagement.Screens
             inputSystem.MoveIntent += (s, e) =>
                 {
                     var transform = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<TransformComponent>();
-                    transform.Position += new Vector3(e.Direction, 0f);
-                    //var rot = Quaternion.CreateFromYawPitchRoll(0, -0.25f * e.Direction.Y, -0.25f * e.Direction.X);
-                    //transform.Rotation *= rot;
-                    //transform.Rotation.Normalize();
+                    transform.Position += new Vector3(e.Direction.X, 0f, -e.Direction.Y);
                 };
+
+            inputSystem.JumpIntent += (s, e) =>
+                {
+                    var vel = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<VelocityComponent>();
+                    var jump = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<JumpComponent>();
+                    vel.applyGravity = true;
+                    jump.WantToJump = true;
+                    vel.Velocity = new Vector3(0, 0.03f, 0);
+                };
+        }
+
+        private void CreateBackground()
+        {
+            var background = entityWorld.CreateEntity();
+            background.AddComponent(new SpatialFormComponent("hospital"));
+            background.AddComponent(new TransformComponent());
+  
+            var transform = background.GetComponent<TransformComponent>();
+            transform.Position = new Vector3(0, 0, -25.0f);
+            transform.Scale = new Vector3(0.15f, 0.15f, 0.15f);
+        }
+
+        private void CreateObstacle()
+        {   
+            var table = entityWorld.CreateEntity();
+            table.AddComponent(new SpatialFormComponent(""));
+            table.AddComponent(new TransformComponent());
+            
         }
 
         public override void UnloadContent()
@@ -98,6 +125,8 @@ namespace Game.StateManagement.Screens
 
             // Register the systems.
             entityWorld.RegisterSystem<MovementSystem>();
+            entityWorld.RegisterSystem<JumpSystem>();
+            entityWorld.RegisterSystem<GravitySystem>();
             entityWorld.RegisterSystem<RenderSystem>();
             entityWorld.RegisterSystem<InputSystem>();
             entityWorld.RegisterSystem<CameraSystem>();

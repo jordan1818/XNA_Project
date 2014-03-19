@@ -40,7 +40,7 @@ namespace Game.StateManagement.Screens
             if (content == null)
                 content = new ContentManager(ScreenManager.game.Services, "Content");
 
-            backgroundTexture = content.Load<Texture2D>("background");
+            backgroundTexture = content.Load<Texture2D>("lab1");
         }
 
 

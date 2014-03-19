@@ -66,6 +66,9 @@
     <Reference Include="Microsoft.Xna.Framework.GamerServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -73,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\InputComponent.cs" />
+    <Compile Include="Components\JumpComponent.cs" />
     <Compile Include="Components\SpatialFormComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
@@ -90,9 +94,12 @@
     <Compile Include="StateManagement\Screens\MenuScreen.cs" />
     <Compile Include="StateManagement\Screens\MessageBoxScreen.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
+    <Compile Include="Systems\GravitySystem.cs" />
     <Compile Include="Systems\InputSystem.cs" />
+    <Compile Include="Systems\JumpSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\RenderSystem.cs" />
+    <Compile Include="Template\EnemyTemplate.cs" />
     <Compile Include="Template\PlayerTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
