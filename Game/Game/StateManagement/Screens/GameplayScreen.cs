@@ -131,5 +131,12 @@ namespace Game.StateManagement.Screens
             entityWorld.RegisterSystem<InputSystem>();
             entityWorld.RegisterSystem<CameraSystem>();
         }
+
+        private Entity CreateEnemyEntity(string spatialFile)
+        {
+            var e = entityWorld.CreateFromTemplate<EnemyTemplate>();
+            e.AddComponent(new SpatialFormComponent(spatialFile));
+            return e;
+        }
     }
 }
