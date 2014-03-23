@@ -16,21 +16,24 @@ namespace Game.Systems
 
         protected override void Process(Entity entity)
         {
-            var vel = entity.GetComponent<VelocityComponent>();
+            var vel       = entity.GetComponent<VelocityComponent>();
             var transform = entity.GetComponent<TransformComponent>();
-            var jump = entity.GetComponent<JumpComponent>();
+            var jump      = entity.GetComponent<JumpComponent>();
 
-            if (jump.JumpCount > jump.MAXJUMPS)
+            // Check if player wants to jump and still can.
+            if (jump.WantToJump && jump.JumpCount < JumpComponent.MaxJumps)
+            {
+                vel.Velocity = new Vector3(vel.Velocity.X, JumpComponent.MaxYVel, vel.Velocity.Z);
+                jump.JumpCount++;
                 jump.WantToJump = false;
-
-            else if (jump.WantToJump && jump.JumpCount < jump.MAXJUMPS)
-                jump.JumpCount += 1;
+            }
+            // Check if the player has landed again and reset his jump count.
+            else if (jump.JumpCount > 0 && transform.Position.Y <= 0)
+            {
                 jump.WantToJump = false;
-
-            if (transform.Position.Y <= 0.0f)
                 jump.JumpCount = 0;
-
-
+                transform.Position = new Vector3(transform.Position.X, 0, transform.Position.Z);
+            }
         }
     }
 }

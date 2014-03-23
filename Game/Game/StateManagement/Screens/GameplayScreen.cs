@@ -76,11 +76,8 @@ namespace Game.StateManagement.Screens
 
             inputSystem.JumpIntent += (s, e) =>
                 {
-                    var vel = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<VelocityComponent>();
                     var jump = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<JumpComponent>();
-                    vel.applyGravity = true;
                     jump.WantToJump = true;
-                    vel.Velocity = new Vector3(0, 0.03f, 0);
                 };
         }
 
@@ -115,13 +112,13 @@ namespace Game.StateManagement.Screens
             entityWorld = new EntityWorld();
 
             // Register the systems.
-            entityWorld.RegisterSystem<WayPointSystem>();
-            entityWorld.RegisterSystem<MovementSystem>();
-            entityWorld.RegisterSystem<JumpSystem>();
-            entityWorld.RegisterSystem<GravitySystem>();
-            entityWorld.RegisterSystem<RenderSystem>();
             entityWorld.RegisterSystem<InputSystem>();
+            entityWorld.RegisterSystem<WayPointSystem>();
+            entityWorld.RegisterSystem<JumpSystem>();
+            entityWorld.RegisterSystem<MovementSystem>();
+            entityWorld.RegisterSystem<GravitySystem>();
             entityWorld.RegisterSystem<CameraSystem>();
+            entityWorld.RegisterSystem<RenderSystem>();
         }
     }
 }
