@@ -7,7 +7,6 @@ namespace ECS
 {
     public interface IEntityTemplate
     {
-        Entity Build(Entity e);
-
+        Entity Build(Entity e, params object[] args);
     }
 }

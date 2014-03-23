@@ -14,10 +14,10 @@ namespace Game.Template
         {
         }
 
-        public Entity Build(Entity e)
+        public Entity Build(Entity e, params object[] args)
         {
-            e.Tag = "Enemy";
-            //e.AddComponent(new SpatialFormComponent(""));
+            e.Tag = (string)args[1];
+            e.AddComponent(new SpatialFormComponent((string)args[0]));
             e.AddComponent(new TransformComponent());
             e.AddComponent(new VelocityComponent());
             return e;

@@ -62,7 +62,6 @@ namespace Game.StateManagement.Screens
             InitMatrices();
             InitEntityWorld();
             CreateBackground();
-            //CreateObstacle();
 
             entityWorld.CreateFromTemplate<PlayerTemplate>();
 
@@ -96,14 +95,6 @@ namespace Game.StateManagement.Screens
             transform.Scale = new Vector3(0.15f, 0.15f, 0.15f);
         }
 
-        private void CreateObstacle()
-        {   
-            var table = entityWorld.CreateEntity();
-            table.AddComponent(new SpatialFormComponent(""));
-            table.AddComponent(new TransformComponent());
-            
-        }
-
         public override void UnloadContent()
         {
             base.UnloadContent();
@@ -124,6 +115,7 @@ namespace Game.StateManagement.Screens
             entityWorld = new EntityWorld();
 
             // Register the systems.
+            entityWorld.RegisterSystem<WayPointSystem>();
             entityWorld.RegisterSystem<MovementSystem>();
             entityWorld.RegisterSystem<JumpSystem>();
             entityWorld.RegisterSystem<GravitySystem>();

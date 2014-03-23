@@ -74,11 +74,11 @@ namespace ECS
         /// </summary>
         /// <typeparam name="T">Entity template</typeparam>
         /// <returns>Entity of the template</returns>
-        public Entity CreateFromTemplate<T>() where T:IEntityTemplate
+        public Entity CreateFromTemplate<T>(params object[] args) where T:IEntityTemplate
         {
             var e = CreateEntity();
             var t = (T) Activator.CreateInstance(typeof(T), null);
-            t.Build(e);
+            t.Build(e, args);
             return e;	
         }
 
