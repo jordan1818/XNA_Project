@@ -119,6 +119,7 @@ namespace Game.StateManagement.Screens
             entityWorld.RegisterSystem<GravitySystem>();
             entityWorld.RegisterSystem<CameraSystem>();
             entityWorld.RegisterSystem<RenderSystem>();
+            entityWorld.RegisterSystem<TextSystem>();
         }
     }
 }

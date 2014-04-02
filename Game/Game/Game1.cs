@@ -18,6 +18,7 @@ namespace Game
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        private SpriteFont spriteFont;
 
         private ScreenManager screenManager;
 
@@ -42,10 +43,12 @@ namespace Game
         {
              // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteFont = Content.Load<SpriteFont>("gamefont");
 
             BlackBoard.SetEntry("ContentManager"  , Content);
             BlackBoard.SetEntry("GraphicsDevice"  , GraphicsDevice);
             BlackBoard.SetEntry("SpriteBatch"     , spriteBatch);
+            BlackBoard.SetEntry("SpriteFont"      , spriteFont);
             BlackBoard.SetEntry("QuitFunc"        , (Action)this.Exit);
         }
 
