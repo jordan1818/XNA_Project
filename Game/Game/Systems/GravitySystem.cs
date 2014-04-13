@@ -28,7 +28,7 @@ namespace Game.Systems
             // Apply gravity.
             else
             {
-                vel.Velocity += new Vector3(0f, -0.035f, 0f);
+                vel.Velocity += new Vector3(0f, -0.017f, 0f);
             }
         }
     }

@@ -18,7 +18,7 @@ namespace Game.Systems
         private SpriteFont spriteFont;
 
         public TextSystem(EntityWorld entityWorld) :
-            base(entityWorld, new Type[] { typeof(VelocityComponent), typeof(TransformComponent) }, GameLoopType.Draw)
+            base(entityWorld, new Type[] { typeof(TransformComponent) }, GameLoopType.Draw)
         {
             this.entityWorld = entityWorld;
 
@@ -30,17 +30,26 @@ namespace Game.Systems
 
         void TextSystem_ProcessingStarted(object sender, EventArgs e)
         {
+            // Keeps track of time that has past in game.
             timeSinceStart += entityWorld.DeltaTime;
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(spriteFont, "Game Time " + timeSinceStart.TotalMilliseconds, new Vector2(0, 0), Color.Red,
+            // Displays the time it will take to run through the game.
+            spriteBatch.DrawString(spriteFont, "Game Time " + timeSinceStart.TotalSeconds.ToString("0.00"), new Vector2(0, 0), Color.DarkGray,
                                     0.0f, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
+            /*
+            if (collide)
+            {
+                timeSinceStart += TimeSpan.FromSeconds(10);
+            }
+            */
+
             spriteBatch.End();  
         }
 
         protected override void Process(Entity entity)
         {
-
+            // Does nothing..
         }
     }
 }
