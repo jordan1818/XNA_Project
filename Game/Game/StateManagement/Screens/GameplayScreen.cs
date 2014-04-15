@@ -119,19 +119,85 @@ namespace Game.StateManagement.Screens
 
         private void CreateObstacles()
         {
+            int index = 0;
             Random random = new Random();
-            int randomNumber = random.Next(1, 6);
 
-            int startPos = random.Next(1, 6);
-            startPos = 2;
+            do
+            {
+                if (index == 0)
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
 
-            // Table obstacle.
+                        // Table obstacle.
+                        var table = entityWorld.CreateEntity();
+                        table.AddComponent(new SpatialFormComponent("table"));
+                        table.AddComponent(new TransformComponent());
+
+                        var transformTable = table.GetComponent<TransformComponent>();
+                        transformTable.Position = tempPos;
+                        transformTable.Scale = new Vector3(0.055f, 0.055f, 0.075f);
+                    }
+                }
+                else if (index == 1)
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
+                        // Flask obstacle.
+                        var flask = entityWorld.CreateEntity();
+                        flask.AddComponent(new SpatialFormComponent("flask"));
+                        flask.AddComponent(new TransformComponent());
+
+                        var transformFlask = flask.GetComponent<TransformComponent>();
+                        transformFlask.Position = tempPos;
+                        transformFlask.Scale = new Vector3(0.03f, 0.03f, 0.03f);
+                    }
+                }
+                else if (index == 2)
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
+                        // Red ball obstacle.
+                        var ball = entityWorld.CreateEntity();
+                        ball.AddComponent(new SpatialFormComponent("RedBall"));
+                        ball.AddComponent(new TransformComponent());
+
+                        var transformBall = ball.GetComponent<TransformComponent>();
+                        transformBall.Position = tempPos;
+                        transformBall.Scale = new Vector3(0.05f, 0.05f, 0.05f);
+                    }
+                }
+                else if (index == 3)
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
+
+                        // Banana obstacle.
+                        var banana = entityWorld.CreateEntity();
+                        banana.AddComponent(new SpatialFormComponent("banana"));
+                        banana.AddComponent(new TransformComponent());
+
+                        var transformBanana = banana.GetComponent<TransformComponent>();
+                        transformBanana.Position = tempPos;
+                        transformBanana.Scale = new Vector3(0.03f, 0.03f, 0.03f);
+                    }
+                }
+
+                index++;
+            } while (index != 4);
+
+            /*
+            //Table obstacle.
             var table = entityWorld.CreateEntity();
             table.AddComponent(new SpatialFormComponent("table"));
             table.AddComponent(new TransformComponent());
 
             var transformTable = table.GetComponent<TransformComponent>();
-            //transformTable.Position = new Vector3(50.0f, 0.0f, -15.0f);
+            transformTable.Position = new Vector3(50.0f, 0.0f, -15.0f);
             transformTable.Scale = new Vector3(0.055f, 0.055f, 0.075f);
 
             // Flask obstacle.
@@ -140,7 +206,7 @@ namespace Game.StateManagement.Screens
             flask.AddComponent(new TransformComponent());
 
             var transformFlask = flask.GetComponent<TransformComponent>();
-            //transformFlask.Position = new Vector3(30.0f, 0.0f, -1.0f);
+            transformFlask.Position = new Vector3(30.0f, 0.0f, -1.0f);
             transformFlask.Scale = new Vector3(0.03f, 0.03f, 0.03f);
 
             // Red ball obstacle.
@@ -158,44 +224,9 @@ namespace Game.StateManagement.Screens
             banana.AddComponent(new TransformComponent());
 
             var transformBanana = banana.GetComponent<TransformComponent>();
+            transformBanana.Position = new Vector3(45.0f, 0.0f, -30.0f);
             transformBanana.Scale = new Vector3(0.03f, 0.03f, 0.03f);
-
-            switch (startPos)
-            {
-                case 1:
-                    transformTable.Position = new Vector3(50.0f, 0.0f, -15.0f);
-                    transformFlask.Position = new Vector3(30.0f, 0.0f, -11.0f);
-                    transformBanana.Position = new Vector3(45.0f, 0.0f, -30.0f);
-                    break;
-                case 2:
-                    transformTable.Position = new Vector3(30.0f, 0.0f, -35.0f);
-                    transformFlask.Position = new Vector3(300.0f, 0.0f, -30.0f);
-                    transformBanana.Position = new Vector3(45.0f, 0.0f, -30.0f);
-                    break;
-                case 3:
-                    transformTable.Position = new Vector3(50.0f, 0.0f, -25.0f);
-                    transformFlask.Position = new Vector3(60.0f, 0.0f, -1.0f);
-                    transformBanana.Position = new Vector3(45.0f, 0.0f, -30.0f);
-                    break;
-                case 4:
-                    transformTable.Position = new Vector3(100.0f, 0.0f, -15.0f);
-                    transformFlask.Position = new Vector3(100.0f, 0.0f, -1.0f);
-                    transformBanana.Position = new Vector3(45.0f, 0.0f, -30.0f);
-
-                    break;
-                case 5:
-                    transformTable.Position = new Vector3(0.0f, 0.0f, -15.0f);
-                    transformFlask.Position = new Vector3(25.0f, 0.0f, -1.0f);
-                    transformBanana.Position = new Vector3(45.0f, 0.0f, -30.0f);
-
-                    break;
-                case 6:
-                    transformTable.Position = new Vector3(20.0f, 0.0f, -15.0f);
-                    transformFlask.Position = new Vector3(60.0f, 0.0f, -10.0f);
-                    transformBanana.Position = new Vector3(45.0f, 0.0f, -30.0f);
-
-                    break;
-            }
+             */ 
         }
 
         public override void UnloadContent()
