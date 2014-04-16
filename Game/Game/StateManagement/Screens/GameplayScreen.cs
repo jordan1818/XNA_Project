@@ -119,76 +119,62 @@ namespace Game.StateManagement.Screens
 
         private void CreateObstacles()
         {
-            int index = 0;
+            const int MAXITEMS = 6;
             Random random = new Random();
 
-            do
+            for (int i = 0; i < MAXITEMS; i++)
             {
-                if (index == 0)
-                {
-                    for (int i = 0; i < 10; i++)
-                    {
-                        Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
+                Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
 
-                        // Table obstacle.
-                        var table = entityWorld.CreateEntity();
-                        table.AddComponent(new SpatialFormComponent("table"));
-                        table.AddComponent(new TransformComponent());
+                // Table obstacle.
+                var table = entityWorld.CreateEntity();
+                table.AddComponent(new SpatialFormComponent("table"));
+                table.AddComponent(new TransformComponent());
 
-                        var transformTable = table.GetComponent<TransformComponent>();
-                        transformTable.Position = tempPos;
-                        transformTable.Scale = new Vector3(0.055f, 0.055f, 0.075f);
-                    }
-                }
-                else if (index == 1)
-                {
-                    for (int i = 0; i < 10; i++)
-                    {
-                        Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
-                        // Flask obstacle.
-                        var flask = entityWorld.CreateEntity();
-                        flask.AddComponent(new SpatialFormComponent("flask"));
-                        flask.AddComponent(new TransformComponent());
+                var transformTable = table.GetComponent<TransformComponent>();
+                transformTable.Position = tempPos;
+                transformTable.Scale = new Vector3(0.055f, 0.055f, 0.075f);
+            }
 
-                        var transformFlask = flask.GetComponent<TransformComponent>();
-                        transformFlask.Position = tempPos;
-                        transformFlask.Scale = new Vector3(0.03f, 0.03f, 0.03f);
-                    }
-                }
-                else if (index == 2)
-                {
-                    for (int i = 0; i < 10; i++)
-                    {
-                        Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
-                        // Red ball obstacle.
-                        var ball = entityWorld.CreateEntity();
-                        ball.AddComponent(new SpatialFormComponent("RedBall"));
-                        ball.AddComponent(new TransformComponent());
+            for (int i = 0; i < MAXITEMS; i++)
+            {
+                Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
+                // Flask obstacle.
+                var flask = entityWorld.CreateEntity();
+                flask.AddComponent(new SpatialFormComponent("flask"));
+                flask.AddComponent(new TransformComponent());
 
-                        var transformBall = ball.GetComponent<TransformComponent>();
-                        transformBall.Position = tempPos;
-                        transformBall.Scale = new Vector3(0.05f, 0.05f, 0.05f);
-                    }
-                }
-                else if (index == 3)
-                {
-                    for (int i = 0; i < 10; i++)
-                    {
-                        Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
+                var transformFlask = flask.GetComponent<TransformComponent>();
+                transformFlask.Position = tempPos;
+                transformFlask.Scale = new Vector3(0.03f, 0.03f, 0.03f);
+            }
 
-                        // Banana obstacle.
-                        var banana = entityWorld.CreateEntity();
-                        banana.AddComponent(new SpatialFormComponent("banana"));
-                        banana.AddComponent(new TransformComponent());
+            for (int i = 0; i < MAXITEMS; i++)
+            {
+                Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
+                // Red ball obstacle.
+                var ball = entityWorld.CreateEntity();
+                ball.AddComponent(new SpatialFormComponent("RedBall"));
+                ball.AddComponent(new TransformComponent());
 
-                        var transformBanana = banana.GetComponent<TransformComponent>();
-                        transformBanana.Position = tempPos;
-                        transformBanana.Scale = new Vector3(0.03f, 0.03f, 0.03f);
-                    }
-                }
+                var transformBall = ball.GetComponent<TransformComponent>();
+                transformBall.Position = tempPos;
+                transformBall.Scale = new Vector3(0.05f, 0.05f, 0.05f);
+            }
 
-                index++;
-            } while (index != 4);
+            for (int i = 0; i < MAXITEMS; i++)
+            {
+                Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
+
+                // Banana obstacle.
+                var banana = entityWorld.CreateEntity();
+                banana.AddComponent(new SpatialFormComponent("banana"));
+                banana.AddComponent(new TransformComponent());
+
+                var transformBanana = banana.GetComponent<TransformComponent>();
+                transformBanana.Position = tempPos;
+                transformBanana.Scale = new Vector3(0.03f, 0.03f, 0.03f);
+            }
 
             /*
             //Table obstacle.
