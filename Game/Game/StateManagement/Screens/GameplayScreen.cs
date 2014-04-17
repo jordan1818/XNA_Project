@@ -46,7 +46,7 @@ namespace Game.StateManagement.Screens
                 quit();
                 
                 // TODO: This should open a menu or title screen.
-            }
+            } 
 
             entityWorld.Update(gameTime.ElapsedGameTime);
         }
@@ -119,12 +119,12 @@ namespace Game.StateManagement.Screens
 
         private void CreateObstacles()
         {
-            const int MAXITEMS = 6;
+            const int MAXITEMS = 7;
             Random random = new Random();
 
             for (int i = 0; i < MAXITEMS; i++)
             {
-                Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
+                Vector3 tempPos = new Vector3((float)random.Next(50, 600), 0.0f, (float)random.Next(-45, -10));
 
                 // Table obstacle.
                 var table = entityWorld.CreateEntity();
@@ -138,7 +138,7 @@ namespace Game.StateManagement.Screens
 
             for (int i = 0; i < MAXITEMS; i++)
             {
-                Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
+                Vector3 tempPos = new Vector3((float)random.Next(50, 600), 0.0f, (float)random.Next(-45, -10));
                 // Flask obstacle.
                 var flask = entityWorld.CreateEntity();
                 flask.AddComponent(new SpatialFormComponent("flask"));
@@ -151,7 +151,7 @@ namespace Game.StateManagement.Screens
 
             for (int i = 0; i < MAXITEMS; i++)
             {
-                Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
+                Vector3 tempPos = new Vector3((float)random.Next(50, 600), 0.0f, (float)random.Next(-45, -10));
                 // Red ball obstacle.
                 var ball = entityWorld.CreateEntity();
                 ball.AddComponent(new SpatialFormComponent("RedBall"));
@@ -164,7 +164,7 @@ namespace Game.StateManagement.Screens
 
             for (int i = 0; i < MAXITEMS; i++)
             {
-                Vector3 tempPos = new Vector3((float)random.Next(50, 650), 0.0f, (float)random.Next(-45, -10));
+                Vector3 tempPos = new Vector3((float)random.Next(50, 600), 0.0f, (float)random.Next(-45, -10));
 
                 // Banana obstacle.
                 var banana = entityWorld.CreateEntity();
