@@ -35,7 +35,7 @@ namespace Game.Systems
 
             spriteBatch.Begin();
             // Displays the time it will take to run through the game.
-            spriteBatch.DrawString(spriteFont, "Game Time " + timeSinceStart.TotalSeconds.ToString("0.00"), new Vector2(0, 0), Color.DarkGray,
+            spriteBatch.DrawString(spriteFont, "Game Time: " + timeSinceStart.TotalSeconds.ToString("0.00"), new Vector2(0, 0), Color.DarkGray,
                                     0.0f, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
             /*
             if (collide)

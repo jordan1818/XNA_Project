@@ -109,22 +109,23 @@ namespace Game.StateManagement.Screens
         {
             // Background.
             var background = entityWorld.CreateEntity();
-            background.AddComponent(new SpatialFormComponent("hospital"));
+            background.AddComponent(new SpatialFormComponent("hospital2.0"));
             background.AddComponent(new TransformComponent());
   
             var transform = background.GetComponent<TransformComponent>();
-            transform.Position = new Vector3(270.0f, 0, -25.0f);
+            transform.Position = new Vector3(-50.0f, 0, -25.0f);
             transform.Scale = new Vector3(0.15f, 0.15f, 0.15f);
         }
 
         private void CreateObstacles()
         {
-            const int MAXITEMS = 7;
+            const int MAXITEMS = 30;
+            const int MAXDIST = 3000;
             Random random = new Random();
 
             for (int i = 0; i < MAXITEMS; i++)
             {
-                Vector3 tempPos = new Vector3((float)random.Next(50, 600), 0.0f, (float)random.Next(-45, -10));
+                Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-45, -10));
 
                 // Table obstacle.
                 var table = entityWorld.CreateEntity();
@@ -138,7 +139,8 @@ namespace Game.StateManagement.Screens
 
             for (int i = 0; i < MAXITEMS; i++)
             {
-                Vector3 tempPos = new Vector3((float)random.Next(50, 600), 0.0f, (float)random.Next(-45, -10));
+                Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-45, -10));
+
                 // Flask obstacle.
                 var flask = entityWorld.CreateEntity();
                 flask.AddComponent(new SpatialFormComponent("flask"));
@@ -151,7 +153,8 @@ namespace Game.StateManagement.Screens
 
             for (int i = 0; i < MAXITEMS; i++)
             {
-                Vector3 tempPos = new Vector3((float)random.Next(50, 600), 0.0f, (float)random.Next(-45, -10));
+                Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-45, -10));
+
                 // Red ball obstacle.
                 var ball = entityWorld.CreateEntity();
                 ball.AddComponent(new SpatialFormComponent("RedBall"));
@@ -164,7 +167,7 @@ namespace Game.StateManagement.Screens
 
             for (int i = 0; i < MAXITEMS; i++)
             {
-                Vector3 tempPos = new Vector3((float)random.Next(50, 600), 0.0f, (float)random.Next(-45, -10));
+                Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-45, -10));
 
                 // Banana obstacle.
                 var banana = entityWorld.CreateEntity();
