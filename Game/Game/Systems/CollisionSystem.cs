@@ -26,14 +26,18 @@ namespace Game.Systems
 
         protected override void Process(Entity entity)
         {
-            /*
-            for(int i = 0; i < models[].Meshes.Count; i++)
-            {
-                BoundingBox firstSphere = models[].Meshes[i].BoundingSphere;
+            var spatialform =   entity.GetComponent<SpatialFormComponent>().SpatialFormFile;
+            var entityONE   =   FetchModel(spatialform);
+            var entityTWO   =   FetchModel(spatialform);
 
-                for (int j = 0; j < models[].Meshes.Count; j++)
+            /*
+            for(int i = 0; i < entityONE.Meshes.Count; i++)
+            {
+                BoundingBox firstSphere = entityONE.Meshes[i].BoundingSphere;
+
+                for (int j = 0; j < entityTWO.Meshes.Count; j++)
                 {
-                    BoundingSphere secondSphere = models[].Meshes[i].BoundingSphere;
+                    BoundingSphere secondSphere = entityTWO.Meshes[i].BoundingSphere;
 
                     if (firstSphere.Intersects(secondSphere))
                     {
@@ -42,7 +46,13 @@ namespace Game.Systems
                 }
             }
              */
+        }
 
+        private Model FetchModel(string key)
+        {
+            Model m;
+            m = Content.Load<Model>(key);
+            return m;
         }
     }
 }
