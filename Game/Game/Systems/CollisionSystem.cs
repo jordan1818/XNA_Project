@@ -12,7 +12,6 @@ namespace Game.Systems
 {
     class CollisionSystem : EntitySystem
     {
-        private Model models;
         private ContentManager Content;
 
         private EntityWorld entityWorld;
@@ -27,25 +26,26 @@ namespace Game.Systems
         protected override void Process(Entity entity)
         {
             var spatialform =   entity.GetComponent<SpatialFormComponent>().SpatialFormFile;
-            var entityONE   =   FetchModel(spatialform);
-            var entityTWO   =   FetchModel(spatialform);
+            var player      =   FetchModel(entityWorld.GetEntityByTag("PLAYER").GetComponent<SpatialFormComponent>().SpatialFormFile);
+            var obstacles   =   FetchModel(spatialform);
 
-            /*
-            for(int i = 0; i < entityONE.Meshes.Count; i++)
+            for(int i = 0; i < player.Meshes.Count; i++)
             {
-                BoundingBox firstSphere = entityONE.Meshes[i].BoundingSphere;
+                BoundingSphere firstSphere = player.Meshes[i].BoundingSphere;
+                firstSphere = firstSphere.Transform(entityWorld.GetEntityByTag("PLAYER").GetComponent<TransformComponent>().TransformMatrix);
 
-                for (int j = 0; j < entityTWO.Meshes.Count; j++)
+                for (int j = 0; j < obstacles.Meshes.Count; j++)
                 {
-                    BoundingSphere secondSphere = entityTWO.Meshes[i].BoundingSphere;
+                    BoundingSphere secondSphere = obstacles.Meshes[i].BoundingSphere;
+                    secondSphere = secondSphere.Transform(entity.GetComponent<TransformComponent>().TransformMatrix);
 
                     if (firstSphere.Intersects(secondSphere))
                     {
-                        
+                        // Seems to be always colliding...
+                        // do something.
                     }
                 }
             }
-             */
         }
 
         private Model FetchModel(string key)

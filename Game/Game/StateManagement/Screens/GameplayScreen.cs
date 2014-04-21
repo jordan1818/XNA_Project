@@ -205,6 +205,7 @@ namespace Game.StateManagement.Screens
 
             // Register the systems.
             entityWorld.RegisterSystem<InputSystem>();
+            entityWorld.RegisterSystem<CollisionSystem>();
             entityWorld.RegisterSystem<WayPointSystem>();
             entityWorld.RegisterSystem<JumpSystem>();
             entityWorld.RegisterSystem<MovementSystem>();
