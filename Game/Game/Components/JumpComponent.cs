@@ -8,9 +8,9 @@ namespace Game.Components
 {
     class JumpComponent : IComponent
     {
-        public const int MaxJumps = 2;
+        public const float MaxJumps = 1.4f;
 
-        public const float MaxYVel = 0.35f;
+        public const float MaxYVel = 0.20f;
 
         public int JumpCount { set; get; }
         public bool WantToJump { set; get; }

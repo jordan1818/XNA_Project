@@ -8,6 +8,8 @@ namespace Game.Components
 {
     class CollisionComponent : IComponent
     {
+        Dictionary<string, Matrix> modelsTransformMatrix;
+
         public CollisionComponent()
         {
 

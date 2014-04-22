@@ -99,7 +99,6 @@
     <Compile Include="Systems\RenderSystem.cs" />
     <Compile Include="Systems\TextSystem.cs" />
     <Compile Include="Systems\WayPointSystem.cs" />
-    <Compile Include="Template\EnemyTemplate.cs" />
     <Compile Include="Template\PlayerTemplate.cs" />
   </ItemGroup>
   <ItemGroup>

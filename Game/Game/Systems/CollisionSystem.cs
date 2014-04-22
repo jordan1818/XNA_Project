@@ -16,37 +16,62 @@ namespace Game.Systems
 
         private EntityWorld entityWorld;
 
+        Model player;
+        private Dictionary<string, Model> models;
+        private Dictionary<string, Matrix> obstaclesPos;
+
+        private const int MAXOBSTACLES = 24;//96;
+
+        private TimeSpan timeSinceStart;
+
         public CollisionSystem(EntityWorld entityWorld) :
-            base(entityWorld, new Type[] { typeof(SpatialFormComponent), typeof(CollisionComponent) }, GameLoopType.Update)
+            base(entityWorld, new Type[] { typeof(SpatialFormComponent), typeof(CollisionComponent), typeof(TransformComponent) }, GameLoopType.Update)
         {
             Content = BlackBoard.GetEntry<ContentManager>("ContentManager");
             this.entityWorld = entityWorld;
+
+            player = FetchModel(entityWorld.GetEntityByTag("PLAYER").GetComponent<SpatialFormComponent>().SpatialFormFile);
+            models["table"] = FetchModel("table");
+            models["flask"] = FetchModel("flask");
+            models["RedBall"] = FetchModel("RedBall");
+            models["banana"] = FetchModel("banana");
         }
 
         protected override void Process(Entity entity)
         {
-            var spatialform =   entity.GetComponent<SpatialFormComponent>().SpatialFormFile;
-            var player      =   FetchModel(entityWorld.GetEntityByTag("PLAYER").GetComponent<SpatialFormComponent>().SpatialFormFile);
-            var obstacles   =   FetchModel(spatialform);
+            Model obstacles = null;
 
-            for(int i = 0; i < player.Meshes.Count; i++)
+            foreach (var par in models)
             {
-                BoundingSphere firstSphere = player.Meshes[i].BoundingSphere;
-                firstSphere = firstSphere.Transform(entityWorld.GetEntityByTag("PLAYER").GetComponent<TransformComponent>().TransformMatrix);
+                obstacles = models[par.Key];
+            }
 
-                for (int j = 0; j < obstacles.Meshes.Count; j++)
+            
+                for (int i = 0; i < player.Meshes.Count; i++)
                 {
-                    BoundingSphere secondSphere = obstacles.Meshes[i].BoundingSphere;
-                    secondSphere = secondSphere.Transform(entity.GetComponent<TransformComponent>().TransformMatrix);
+                    BoundingSphere firstSphere = player.Meshes[i].BoundingSphere;
+                    firstSphere = firstSphere.Transform(entityWorld.GetEntityByTag("PLAYER").GetComponent<TransformComponent>().TransformMatrix);
 
-                    if (firstSphere.Intersects(secondSphere))
+                    for (int k = 0; k < MAXOBSTACLES; k++)
                     {
-                        // Seems to be always colliding...
-                        // do something.
+                        var Transform = entityWorld.GetEntityByTag("obstacle" + k.ToString()).GetComponent<TransformComponent>();
+
+                        for (int j = 0; j < obstacles.Meshes.Count; j++)
+                        {
+                            timeSinceStart += entityWorld.DeltaTime;
+                            BoundingSphere secondSphere = obstacles.Meshes[j].BoundingSphere;
+
+                            // THIS WORKS
+                            secondSphere = secondSphere.Transform(entityWorld.GetEntityByTag("obstacle" + k.ToString()).GetComponent<TransformComponent>().TransformMatrix);
+                            if (firstSphere.Intersects(secondSphere))
+                            {
+                                Transform.Position = new Vector3(-50, 0, 0);
+                                // do something.
+                            }
+                        }
                     }
                 }
             }
-        }
 
         private Model FetchModel(string key)
         {

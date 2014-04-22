@@ -79,7 +79,31 @@ namespace Game.StateManagement.Screens
             inputSystem.MoveIntent += (s, e) =>
                 {
                     var transform = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<TransformComponent>();
-                    transform.Position += new Vector3(e.Direction.X, 0f, -e.Direction.Y);
+                    if (transform.Position.Z <= -55)
+                    {
+                        transform.Position = new Vector3(transform.Position.X, transform.Position.Y, -55);
+                    }
+
+                    if (transform.Position.Z >= 0)
+                    {
+                        transform.Position = new Vector3(transform.Position.X, transform.Position.Y, 0);
+                    }
+
+                    if (transform.Position.X >= 2450)
+                    {
+                        transform.Position = new Vector3(2450, transform.Position.Y, transform.Position.Z);
+                    }
+
+                    if (e.Direction.X < -0.1)
+                    {
+                        transform.Position += new Vector3(0, 0f, -e.Direction.Y);
+                    }
+
+                    else
+                    {
+                        transform.Position += new Vector3(e.Direction.X, 0f, -e.Direction.Y);
+
+                    }
                 };
 
             inputSystem.JumpIntent += (s, e) =>
@@ -109,6 +133,7 @@ namespace Game.StateManagement.Screens
         {
             // Background.
             var background = entityWorld.CreateEntity();
+            background.Tag = "hospital";
             background.AddComponent(new SpatialFormComponent("hospital2.0"));
             background.AddComponent(new TransformComponent());
   
@@ -119,8 +144,8 @@ namespace Game.StateManagement.Screens
 
         private void CreateObstacles()
         {
-            const int MAXITEMS = 30;
-            const int MAXDIST = 3000;
+            const int MAXITEMS = 24;
+            const int MAXDIST = 2450;
             Random random = new Random();
 
             for (int i = 0; i < MAXITEMS; i++)
@@ -129,6 +154,7 @@ namespace Game.StateManagement.Screens
 
                 // Table obstacle.
                 var table = entityWorld.CreateEntity();
+                table.Tag = "obstacle" + i.ToString();
                 table.AddComponent(new SpatialFormComponent("table"));
                 table.AddComponent(new TransformComponent());
                 table.AddComponent(new CollisionComponent());
@@ -205,9 +231,9 @@ namespace Game.StateManagement.Screens
 
             // Register the systems.
             entityWorld.RegisterSystem<InputSystem>();
-            entityWorld.RegisterSystem<CollisionSystem>();
             entityWorld.RegisterSystem<WayPointSystem>();
             entityWorld.RegisterSystem<JumpSystem>();
+            //entityWorld.RegisterSystem<CollisionSystem>();
             entityWorld.RegisterSystem<MovementSystem>();
             entityWorld.RegisterSystem<GravitySystem>();
             entityWorld.RegisterSystem<CameraSystem>();
