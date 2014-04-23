@@ -10,7 +10,7 @@ namespace Game.Components
     {
         public const float MaxJumps = 1.4f;
 
-        public const float MaxYVel = 0.20f;
+        public const float MaxYVel = 0.30f;
 
         public int JumpCount { set; get; }
         public bool WantToJump { set; get; }

@@ -16,6 +16,10 @@ namespace Game.Systems
 
         private SpriteBatch spriteBatch;
         private SpriteFont spriteFont;
+        private bool collide = false;
+        private bool done = false;
+        private TimeSpan finalScore;
+        bool once = true;
 
         public TextSystem(EntityWorld entityWorld) :
             base(entityWorld, new Type[] { typeof(TransformComponent) }, GameLoopType.Draw)
@@ -33,16 +37,38 @@ namespace Game.Systems
             // Keeps track of time that has past in game.
             timeSinceStart += entityWorld.DeltaTime;
 
+            done = BlackBoard.GetEntry<bool>("Done");
+
             spriteBatch.Begin();
-            // Displays the time it will take to run through the game.
-            spriteBatch.DrawString(spriteFont, "Game Time: " + timeSinceStart.TotalSeconds.ToString("0.00"), new Vector2(0, 0), Color.DarkGray,
-                                    0.0f, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
-            /*
+            if (done)
+            {
+                if (once)
+                {
+                    finalScore = timeSinceStart;
+                    once = false;
+                }
+
+                spriteBatch.DrawString(spriteFont, "Your time was " + finalScore.TotalSeconds.ToString("0") + " Seconds!", new Vector2(150, 100), Color.Blue,
+                                    0.0f, new Vector2(0, 0), 0.75f, SpriteEffects.None, 0);
+                spriteBatch.DrawString(spriteFont, "Press back to exit! Thank you for playing!", new Vector2(100, 150), Color.Blue,
+                                    0.0f, new Vector2(0, 0), 0.75f, SpriteEffects.None, 0);
+            }
+            else if (!done)
+            {
+                // Displays the time it will take to run through the game.
+                spriteBatch.DrawString(spriteFont, "Time : " + timeSinceStart.TotalSeconds.ToString("0"), new Vector2(0, 0), Color.DarkGray,
+                                        0.0f, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
+            }
+
+            // Gets collisions for all obstacles.
+            collide = BlackBoard.GetEntry<bool>("collide");
             if (collide)
             {
+                // Adds time for colliding with object.
                 timeSinceStart += TimeSpan.FromSeconds(10);
+                collide = false;
+                BlackBoard.SetEntry("collide", collide);
             }
-            */
 
             spriteBatch.End();  
         }
