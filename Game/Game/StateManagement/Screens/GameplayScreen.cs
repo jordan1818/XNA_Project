@@ -133,7 +133,6 @@ namespace Game.StateManagement.Screens
         {
             // Background.
             var background = entityWorld.CreateEntity();
-            background.Tag = "hospital";
             background.AddComponent(new SpatialFormComponent("hospital2.0"));
             background.AddComponent(new TransformComponent());
   
@@ -146,18 +145,20 @@ namespace Game.StateManagement.Screens
         {
             const int MAXITEMS = 24;
             const int MAXDIST = 2450;
+            int obstacleIndex = 0;
             Random random = new Random();
 
             for (int i = 0; i < MAXITEMS; i++)
             {
                 Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-45, -10));
 
+                obstacleIndex++;
+
                 // Table obstacle.
                 var table = entityWorld.CreateEntity();
-                table.Tag = "obstacle" + i.ToString();
+                table.Tag = "obstacle" + obstacleIndex.ToString();
                 table.AddComponent(new SpatialFormComponent("table"));
                 table.AddComponent(new TransformComponent());
-                table.AddComponent(new CollisionComponent());
 
                 var transformTable = table.GetComponent<TransformComponent>();
                 transformTable.Position = tempPos;
@@ -168,11 +169,13 @@ namespace Game.StateManagement.Screens
             {
                 Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-45, -10));
 
+                obstacleIndex++;
+
                 // Flask obstacle.
                 var flask = entityWorld.CreateEntity();
+                flask.Tag = "obstacle" + obstacleIndex.ToString();
                 flask.AddComponent(new SpatialFormComponent("flask"));
                 flask.AddComponent(new TransformComponent());
-                flask.AddComponent(new CollisionComponent());
 
                 var transformFlask = flask.GetComponent<TransformComponent>();
                 transformFlask.Position = tempPos;
@@ -183,11 +186,13 @@ namespace Game.StateManagement.Screens
             {
                 Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-45, -10));
 
+                obstacleIndex++;
+
                 // Red ball obstacle.
                 var ball = entityWorld.CreateEntity();
+                ball.Tag = "obstacle" + obstacleIndex.ToString();
                 ball.AddComponent(new SpatialFormComponent("RedBall"));
                 ball.AddComponent(new TransformComponent());
-                ball.AddComponent(new CollisionComponent());
 
                 var transformBall = ball.GetComponent<TransformComponent>();
                 transformBall.Position = tempPos;
@@ -198,16 +203,20 @@ namespace Game.StateManagement.Screens
             {
                 Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-45, -10));
 
+                obstacleIndex++;
+
                 // Banana obstacle.
                 var banana = entityWorld.CreateEntity();
+                banana.Tag = "obstacle" + obstacleIndex.ToString();
                 banana.AddComponent(new SpatialFormComponent("banana"));
                 banana.AddComponent(new TransformComponent());
-                banana.AddComponent(new CollisionComponent());
 
                 var transformBanana = banana.GetComponent<TransformComponent>();
                 transformBanana.Position = tempPos;
                 transformBanana.Scale = new Vector3(0.03f, 0.03f, 0.03f);
             }
+
+            BlackBoard.SetEntry("AmountObstacle", obstacleIndex);
         }
 
         public override void UnloadContent()
