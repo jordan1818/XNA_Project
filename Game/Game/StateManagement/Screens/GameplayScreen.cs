@@ -1,4 +1,19 @@
-﻿using System;
+﻿/********************************************************************************************************
+ * Lab Runner created by Jonathan, Jordan, Zac
+ * 
+ * Our Main Game
+ * 
+ * Module Name: Lab Runner (XNA Project)
+ * 
+ * Inputs: Xbox control/keyboard (jump = a or spacebar), (Movement = left joystick or arrow keys)
+ * 
+ * Date: April 23, 2014.
+ * 
+ * 
+ * ******************************************************************************************************/
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,12 +44,19 @@ namespace Game.StateManagement.Screens
 
         private EntityWorld entityWorld;
 
+        private bool done;
+
         public GameplayScreen()
         {
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
         }
-
+    /// <summary>
+    /// Update function of main game play screen
+    /// </summary>
+    /// <param name="gameTime">Actual time passed</param>
+    /// <param name="otherScreenHasFocus"></param>
+    /// <param name="coveredByOtherScreen"></param>
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
@@ -46,23 +68,31 @@ namespace Game.StateManagement.Screens
                 quit();
                 
                 // TODO: This should open a menu or title screen.
-            } 
+            }
 
             entityWorld.Update(gameTime.ElapsedGameTime);
         }
-
+    /// <summary>
+    /// Draw
+    /// </summary>
+    /// <param name="gameTime">Time since last frame</param>
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
             entityWorld.Draw();
         }
-
+        /// <summary>
+        /// Loads content of our screen
+        /// </summary>
         public override void LoadContent()
         {
             base.LoadContent();
 
             graphicsDevice = BlackBoard.GetEntry<GraphicsDevice>("GraphicsDevice");
             spriteBatch    = BlackBoard.GetEntry<SpriteBatch>("SpriteBatch");
+
+            done = false;
+            BlackBoard.SetEntry("Done", done);
 
             InitMatrices();
             InitSounds();
@@ -79,9 +109,35 @@ namespace Game.StateManagement.Screens
             inputSystem.MoveIntent += (s, e) =>
                 {
                     var transform = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<TransformComponent>();
-                    transform.Position += new Vector3(e.Direction.X, 0f, -e.Direction.Y);
-                };
+                    if (transform.Position.Z <= -55)
+                    {
+                        transform.Position = new Vector3(transform.Position.X, transform.Position.Y, -55);
+                    }
 
+                    if (transform.Position.Z >= 0)
+                    {
+                        transform.Position = new Vector3(transform.Position.X, transform.Position.Y, 0);
+                    }
+
+                    if (transform.Position.X >= 2450)
+                    {
+                        transform.Position = new Vector3(2450, transform.Position.Y, transform.Position.Z);
+                        done = true;
+                        BlackBoard.SetEntry("Done", done);
+                    }
+
+                    if (e.Direction.X < -0.1)
+                    {
+                        transform.Position += new Vector3(0, 0f, -e.Direction.Y);
+                    }
+
+                    else
+                    {
+                        transform.Position += new Vector3(e.Direction.X, 0f, -e.Direction.Y);
+
+                    }
+                };
+            // jump system is called when the inputSystem gives the right return
             inputSystem.JumpIntent += (s, e) =>
                 {
                     var jump = e.entityWorld.GetEntityByTag("PLAYER").GetComponent<JumpComponent>();
@@ -89,7 +145,9 @@ namespace Game.StateManagement.Screens
                     jump.WantToJump = true;
                 };
         }
-
+        /// <summary>
+        /// initialized Sounds
+        /// </summary>
         private void InitSounds()
         {
             #if XBOX
@@ -104,7 +162,9 @@ namespace Game.StateManagement.Screens
 
                 soundBank.PlayCue("Horror Music");
         }
-
+        /// <summary>
+        /// Load background models
+        /// </summary>
         private void CreateBackground()
         {
             // Background.
@@ -116,19 +176,25 @@ namespace Game.StateManagement.Screens
             transform.Position = new Vector3(-50.0f, 0, -25.0f);
             transform.Scale = new Vector3(0.15f, 0.15f, 0.15f);
         }
-
+        /// <summary>
+        /// Create all Obstacles
+        /// </summary>
         private void CreateObstacles()
         {
-            const int MAXITEMS = 30;
-            const int MAXDIST = 3000;
+            int MAXITEMS = 10;
+            const int MAXDIST = 2450;
+            int obstacleIndex = 0;
             Random random = new Random();
 
             for (int i = 0; i < MAXITEMS; i++)
             {
-                Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-45, -10));
+                Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-50, -10));
+
+                obstacleIndex++;
 
                 // Table obstacle.
                 var table = entityWorld.CreateEntity();
+                table.Tag = "obstacle" + obstacleIndex.ToString();
                 table.AddComponent(new SpatialFormComponent("table"));
                 table.AddComponent(new TransformComponent());
 
@@ -139,10 +205,13 @@ namespace Game.StateManagement.Screens
 
             for (int i = 0; i < MAXITEMS; i++)
             {
-                Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-45, -10));
+                Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-50, -10));
+
+                obstacleIndex++;
 
                 // Flask obstacle.
                 var flask = entityWorld.CreateEntity();
+                flask.Tag = "obstacle" + obstacleIndex.ToString();
                 flask.AddComponent(new SpatialFormComponent("flask"));
                 flask.AddComponent(new TransformComponent());
 
@@ -153,10 +222,13 @@ namespace Game.StateManagement.Screens
 
             for (int i = 0; i < MAXITEMS; i++)
             {
-                Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-45, -10));
+                Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-50, -10));
+
+                obstacleIndex++;
 
                 // Red ball obstacle.
                 var ball = entityWorld.CreateEntity();
+                ball.Tag = "obstacle" + obstacleIndex.ToString();
                 ball.AddComponent(new SpatialFormComponent("RedBall"));
                 ball.AddComponent(new TransformComponent());
 
@@ -167,10 +239,13 @@ namespace Game.StateManagement.Screens
 
             for (int i = 0; i < MAXITEMS; i++)
             {
-                Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-45, -10));
+                Vector3 tempPos = new Vector3((float)random.Next(50, MAXDIST), 0.0f, (float)random.Next(-50, -10));
+
+                obstacleIndex++;
 
                 // Banana obstacle.
                 var banana = entityWorld.CreateEntity();
+                banana.Tag = "obstacle" + obstacleIndex.ToString();
                 banana.AddComponent(new SpatialFormComponent("banana"));
                 banana.AddComponent(new TransformComponent());
 
@@ -179,50 +254,18 @@ namespace Game.StateManagement.Screens
                 transformBanana.Scale = new Vector3(0.03f, 0.03f, 0.03f);
             }
 
-            /*
-            //Table obstacle.
-            var table = entityWorld.CreateEntity();
-            table.AddComponent(new SpatialFormComponent("table"));
-            table.AddComponent(new TransformComponent());
-
-            var transformTable = table.GetComponent<TransformComponent>();
-            transformTable.Position = new Vector3(50.0f, 0.0f, -15.0f);
-            transformTable.Scale = new Vector3(0.055f, 0.055f, 0.075f);
-
-            // Flask obstacle.
-            var flask = entityWorld.CreateEntity();
-            flask.AddComponent(new SpatialFormComponent("flask"));
-            flask.AddComponent(new TransformComponent());
-
-            var transformFlask = flask.GetComponent<TransformComponent>();
-            transformFlask.Position = new Vector3(30.0f, 0.0f, -1.0f);
-            transformFlask.Scale = new Vector3(0.03f, 0.03f, 0.03f);
-
-            // Red ball obstacle.
-            var ball = entityWorld.CreateEntity();
-            ball.AddComponent(new SpatialFormComponent("RedBall"));
-            ball.AddComponent(new TransformComponent());
-
-            var transformBall = ball.GetComponent<TransformComponent>();
-            transformBall.Position = new Vector3(85.0f, 0.0f, -45.0f);
-            transformBall.Scale = new Vector3(0.05f, 0.05f, 0.05f);
-
-            // Banana obstacle.
-            var banana = entityWorld.CreateEntity();
-            banana.AddComponent(new SpatialFormComponent("banana"));
-            banana.AddComponent(new TransformComponent());
-
-            var transformBanana = banana.GetComponent<TransformComponent>();
-            transformBanana.Position = new Vector3(45.0f, 0.0f, -30.0f);
-            transformBanana.Scale = new Vector3(0.03f, 0.03f, 0.03f);
-             */ 
+            BlackBoard.SetEntry("AmountObstacle", obstacleIndex);
         }
-
+        /// <summary>
+        /// Unload Content 
+        /// </summary>
         public override void UnloadContent()
         {
             base.UnloadContent();
         }
-
+        /// <summary>
+        /// initialized Matrices
+        /// </summary>
         private void InitMatrices()
         {
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, graphicsDevice.Viewport.AspectRatio, 1.0f, 1000.0f);
@@ -232,7 +275,9 @@ namespace Game.StateManagement.Screens
             BlackBoard.SetEntry("ProjectionMatrix", projectionMatrix);
             BlackBoard.SetEntry("ViewMatrix", viewMatrix);
         }
-
+        /// <summary>
+        /// initialized The ECS
+        /// </summary>
         private void InitEntityWorld()
         {
             entityWorld = new EntityWorld();
@@ -241,6 +286,7 @@ namespace Game.StateManagement.Screens
             entityWorld.RegisterSystem<InputSystem>();
             entityWorld.RegisterSystem<WayPointSystem>();
             entityWorld.RegisterSystem<JumpSystem>();
+            entityWorld.RegisterSystem<CollisionSystem>();
             entityWorld.RegisterSystem<MovementSystem>();
             entityWorld.RegisterSystem<GravitySystem>();
             entityWorld.RegisterSystem<CameraSystem>();

@@ -68,7 +68,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\CollisionComponent.cs" />
     <Compile Include="Components\InputComponent.cs" />
     <Compile Include="Components\JumpComponent.cs" />
     <Compile Include="Components\SpatialFormComponent.cs" />
@@ -99,7 +98,6 @@
     <Compile Include="Systems\RenderSystem.cs" />
     <Compile Include="Systems\TextSystem.cs" />
     <Compile Include="Systems\WayPointSystem.cs" />
-    <Compile Include="Template\EnemyTemplate.cs" />
     <Compile Include="Template\PlayerTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
