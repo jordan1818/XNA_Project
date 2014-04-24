@@ -102,7 +102,7 @@ namespace Game.StateManagement.Screens
 
             entityWorld.CreateFromTemplate<PlayerTemplate>();
 
-            // Add temp debug controls.
+            // Added controls.
             var inputSystem = BlackBoard.GetEntry<InputSystem>("InputSystem");
 
             // Sets up movement/jump actions when pressed.
@@ -276,7 +276,7 @@ namespace Game.StateManagement.Screens
             BlackBoard.SetEntry("ViewMatrix", viewMatrix);
         }
         /// <summary>
-        /// initialized The ECS
+        /// initialized The ECS Systems
         /// </summary>
         private void InitEntityWorld()
         {

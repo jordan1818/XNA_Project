@@ -193,6 +193,9 @@ namespace Game.StateManagement.Screens
             spriteBatch.DrawString(font, menuTitle, titlePosition, titleColor, 0,
                                    titleOrigin, titleScale, SpriteEffects.None, 0);
 
+            spriteBatch.DrawString(font, "Object: Beat the clock to the end!", new Vector2(260, 125), Color.Crimson, 0,
+                                   titleOrigin, 0.75f, SpriteEffects.None, 0);
+
             spriteBatch.End();
         }
     }

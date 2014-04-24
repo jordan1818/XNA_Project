@@ -18,8 +18,8 @@ namespace Game.Systems
         private SpriteFont spriteFont;
         private bool collide = false;
         private bool done = false;
-        private TimeSpan finalScore;
-        bool once = true;
+        private TimeSpan finalTime;
+        bool snapShot = true;
 
         public TextSystem(EntityWorld entityWorld) :
             base(entityWorld, new Type[] { typeof(TransformComponent) }, GameLoopType.Draw)
@@ -42,22 +42,22 @@ namespace Game.Systems
             spriteBatch.Begin();
             if (done)
             {
-                if (once)
+                if (snapShot)
                 {
-                    finalScore = timeSinceStart;
-                    once = false;
+                    finalTime = timeSinceStart;
+                    snapShot = false;
                 }
 
-                spriteBatch.DrawString(spriteFont, "Your time was " + finalScore.TotalSeconds.ToString("0") + " Seconds!", new Vector2(150, 100), Color.Blue,
+                spriteBatch.DrawString(spriteFont, "Your time was " + finalTime.TotalSeconds.ToString("0") + " Seconds!", new Vector2(150, 100), Color.Blue,
                                     0.0f, new Vector2(0, 0), 0.75f, SpriteEffects.None, 0);
-                spriteBatch.DrawString(spriteFont, "Press back to exit! Thank you for playing!", new Vector2(100, 150), Color.Blue,
+                spriteBatch.DrawString(spriteFont, "Press back to exit!", new Vector2(125, 150), Color.Crimson,
                                     0.0f, new Vector2(0, 0), 0.75f, SpriteEffects.None, 0);
             }
             else if (!done)
             {
                 // Displays the time it will take to run through the game.
-                spriteBatch.DrawString(spriteFont, "Time : " + timeSinceStart.TotalSeconds.ToString("0"), new Vector2(0, 0), Color.DarkGray,
-                                        0.0f, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
+                spriteBatch.DrawString(spriteFont, "Time: " + timeSinceStart.TotalSeconds.ToString("0"), new Vector2(325, 0), Color.Black,
+                                        0.0f, new Vector2(0, 0), 0.75f, SpriteEffects.None, 0);
             }
 
             // Gets collisions for all obstacles.

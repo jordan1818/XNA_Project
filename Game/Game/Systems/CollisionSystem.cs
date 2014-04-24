@@ -68,7 +68,8 @@ namespace Game.Systems
             Model obstacles = null;
 
             // Checks a specific spot to check for collision.
-            if ((playertranform.Position.X + 10) >= obstaclesTransform[Index].Position.X && obstaclesTransform[Index].Position.X <= (obstaclesTransform[Index].Position.X + 5))
+            if ((playertranform.Position.X + 10) >= obstaclesTransform[Index].Position.X && 
+                obstaclesTransform[Index].Position.X <= (obstaclesTransform[Index].Position.X + 5))
             {
                 for (var par = 0; par < models.Count; par++)
                 {
